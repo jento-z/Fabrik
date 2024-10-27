@@ -51,6 +51,7 @@ def signup(request):
     else:        
         return render(request, 'signup.html')
     
+<<<<<<< Updated upstream
 def signin(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -71,3 +72,17 @@ def signin(request):
 def logout(request):
     auth.logout(request)
     return redirect('signin')
+=======
+# def profile(request, pk):
+#     user_object = User.objects.get(username=pk)
+#     user_profile = Profile.objects.get(user=user_object)
+#     user_posts = Posts.objects.filter(user=pk)
+#     user_post_length = 
+
+#     context = [
+#         'user_object': user_object,
+#         'user_profile': user_profile,
+#     ]
+
+#     return render(request, 'profile.html')
+>>>>>>> Stashed changes

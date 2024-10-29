@@ -90,6 +90,7 @@ def insert_outfit_clothes(outfit_id, clothes_id):
 # insert_outfit(1, 'Casual Friday')
 # insert_outfit_clothes(1, 1)
 
+#------------------------------- Delete Functions -------------------------------
 def delete_user(user_id):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -162,3 +163,37 @@ def delete_outfit_clothes(outfit_id, clothes_id):
 # delete_favorite(1) # Delete a favorite entry with favorite_id = 4
 # delete_outfit(1) # Delete an outfit with outfit_id = 5
 # delete_outfit_clothes(1, 3) # Remove a specific clothing item from an outfit (outfit_id = 1, clothes_id = 2)
+
+#------------------------------- Print Function -------------------------------
+def print_table(table_name):
+    conn = sqlite3.connect('virtual_closet.db')
+    cursor = conn.cursor()
+
+    # Fetch the table contents
+    cursor.execute(f"SELECT * FROM {table_name}")
+    rows = cursor.fetchall()
+
+    # Fetch column headers
+    cursor.execute(f"PRAGMA table_info({table_name})")
+    columns = [col[1] for col in cursor.fetchall()]
+
+    # Print table name
+    print(f"\n=== {table_name.upper()} ===")
+
+    # Print column headers
+    print(" | ".join(columns))
+    print("-" * (len(columns) * 15))  # Divider line based on column count
+
+    # Print each row of the table
+    for row in rows:
+        print(" | ".join(map(str, row)))
+
+    conn.close()
+
+# Print the contents of each table
+# print_table('users')
+# print_table('categories')
+# print_table('clothes')
+# print_table('favorites')
+# print_table('outfits')
+# print_table('outfit_clothes')

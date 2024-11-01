@@ -1,12 +1,15 @@
 {% load static %}
 
+<!-- I'm experimenting with adapting the account settings template into a profile
+page, since it already has an outline of different tabs etc. - Isabella -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
-    <title>Settings</title>
+    <title>Profile</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
@@ -16,24 +19,17 @@
 
 </head>
 
+
 <body>
-
-
-       
-
-          
-
             <div class="container m-auto"> 
 
-                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href = '/'>Home</a> / Account Settings for <b> {{user.username}}</b></h1>
+                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href = '/'>Home</a> / <b> {{user.username}}</b>'s Closet</h1>
                 <ul class="mt-5 -mr-3 flex-nowrap lg:overflow-hidden overflow-x-scroll uk-tab">
-                    <li class="uk-active"><a href="#">General</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Notification</a></li>
-                    <li><a href="#">Social links</a></li>
-                    <!-- <li><a href="#">Billing</a></li> -->
-                    <li><a href="#">Security</a></li>
+                    <!-- <li class="uk-active"><a href="#">General</a></li> -->
+                    <li><a href="#">Outfits</a></li>
+                    <li><a href="#">Items</a></li>
+                    <li><a href="#">Likes</a></li>
+                    <!-- <li><a href="#">Social links</a></li> -->
                 </ul>
 
                 <div class="grid lg:grid-cols-3 mt-12 gap-8">

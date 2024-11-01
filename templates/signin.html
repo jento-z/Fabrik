@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiny5&family=VT323&display=swap" rel="stylesheet">
 
 
 <head>
@@ -25,19 +28,24 @@
     <div id="wrapper" class="flex flex-col justify-between h-screen">
 
         <!-- header-->
-        <div class="bg-white py-4 shadow dark:bg-gray-800">
+        <div class="bg-black py-4 shadow dark:bg-gray-800">
             <div class="max-w-6xl mx-auto">
 
 
                 <div class="flex items-center lg:justify-between justify-around">
 
                     <a href="trending.html">
-                       <b><h1 style="font-size: 1.5rem;">Fabrik</h1></b>
+                       <b><h1 style="
+                        font-family: Tiny5, serif;
+                        font-size: 3rem; 
+                        color: rgb(12, 168, 211);
+                        /* padding-left: 10px */
+                        ">Fabrik</h1></b>
                     </a>
 
                     <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
                         
-                        <a href="/signup" class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white">Register</a>
+                        <a href="/signup" class="bg-white px-6 py-3 rounded-md shadow text-black">Register</a>
                     </div>
 
                 </div>
@@ -51,9 +59,9 @@
                 
                 <div>
                     <style>
-                        h5{
+                        /* h5{
                             color: red;
-                        }
+                        } */
                     </style>
                     {% for message in messages %}
                     <h5>{{message}}</h5>
@@ -73,7 +81,7 @@
                     </div> -->
                     <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Login</button>
                     <div class="text-center mt-5 space-x-2">
-                        <p class="text-base"> Not registered? <a href="/signup" class=""> Create a account </a></p>
+                        <p class="text-base"> Not registered? <a href="/signup" class=""> Create an account </a></p>
                     </div>
                 </form>
             </div>

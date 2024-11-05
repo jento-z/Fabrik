@@ -14,7 +14,7 @@
 ===============*/
 html,body{
 	font-family: calibri;
-    background: #fff;
+    background: #ff0000;
 }
 
 .bio{
@@ -27,14 +27,14 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    color: #545454;
-    background: #b0b3b8;
+    color: #ff0000;
+    background: rgba(0, 0, 0, .4);
 }
 
 p {
     font-size: 14px;
     line-height: 26px;
-    color: #8c8b8b;
+    color: #e5dad2;
 }
 
 a,
@@ -256,7 +256,7 @@ section {
 .gray-bg {
     float: left;
     width: 100%;
-    background: #b0b3b8;
+    background: #e5dad2;
 }
 
 [type="submit"],
@@ -1045,7 +1045,7 @@ header.sticky {
 }
 
 .blue {
-    background: #337ab7;
+    background: rgb(14, 166, 133);
 }
 
 .red {

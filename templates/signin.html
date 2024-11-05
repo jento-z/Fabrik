@@ -16,19 +16,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static 'assets/css/style.css' %}"> -->
     <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
 
 </head>
 
-<body class="bg-gray-100">
+<body style = "background-color: rgb(185, 185, 185);">
 
 
     <div id="wrapper" class="flex flex-col justify-between h-screen">
 
         <!-- header-->
-        <div class="bg-black py-4 shadow dark:bg-gray-800">
+        <div class="py-4 shadow dark:bg-gray-800" style ="background:rgb(34, 34, 35)">
             <div class="max-w-6xl mx-auto">
 
 
@@ -37,10 +37,9 @@
                     <a href="trending.html">
                        <b><h1 style="
                         font-family: Rozha One, serif;
-                        font-size: 3rem; 
-                        color: rgb(12, 168, 211);
-                        /* padding-left: 10px */
-                        ">Fabrik</h1></b>
+                        font-size: 3.5rem; 
+                        color: rgb(14, 166, 133);
+                        ">fabrik</h1></b>
                     </a>
 
                     <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
@@ -55,7 +54,15 @@
         <!-- Content-->
         <div>
             <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-                <h1 class="lg:text-3xl text-xl font-semibold  mb-6"> Log in</h1>
+                <!-- lg:text-3xl text-xl font-semibold  mb-6" -->
+                <h1 style="
+                font-family: Helvetica;
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: rgb(14, 166, 133);
+
+                "
+                > Log in</h1>
                 
                 <div>
                     <style>
@@ -70,8 +77,8 @@
                 
                 <form action="" method = "POST">
                     {% csrf_token %}
-                    <input type="text" name = "username" placeholder="Username" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <input type="password" name = "password" placeholder="Password" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
+                    <input type="text" name = "username" placeholder="Username" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="padding-left: 2%;">
+                    <input type="password" name = "password" placeholder="Password" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="padding-left: 2%;">
                     <!-- <div class="flex justify-between my-4">
                         <div class="checkbox">
                             <input type="checkbox" id="chekcbox1" checked>
@@ -79,7 +86,20 @@
                         </div>
                         <a href="#"> Forgot Your Password? </a>
                     </div> -->
-                    <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Login</button>
+                    <!-- class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full" -->
+                    <button type="submit" style ="
+                    font-size: 2rem; 
+                    font-family: arial;
+                    font-weight: bold;
+                    color: rgb(14, 166, 133);
+                    display: inline-block;
+                    padding: 10px;
+                    border: 3px solid black;
+                    background: rgb(34, 34, 35);
+                    border-radius: 12px;
+                    " 
+                    class="blue py-3 rounded-md text-white text-xl w-full"
+                    >Submit</button>
                     <div class="text-center mt-5 space-x-2">
                         <p class="text-base"> Not registered? <a href="/signup" class=""> Create an account </a></p>
                     </div>

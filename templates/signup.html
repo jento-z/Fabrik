@@ -16,18 +16,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'assets/css/style.css' %}"> -->
     <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
 
 </head>
 
-<body class="bg-gray-100">
+<body style = "background-color: rgb(185, 185, 185);">
 
 
     <div id="wrapper" class="flex flex-col justify-between h-screen">
 
         <!-- header-->
-        <div class="bg-black py-4 shadow dark:bg-gray-800">
+        <div class="bg-black py-4 shadow dark:bg-gray-800" style ="background:rgb(34, 34, 35)">
             <div class="max-w-6xl mx-auto">
 
 
@@ -35,10 +35,10 @@
 
                     <a href="trending.html">
                         <b><h1 style="
-                        font-size: 3rem;
+                        font-size: 3.5rem;
                         font-family: Rozha One, serif;
-                        color: rgb(12, 168, 211)
-                        ">Fabrik</h1></b>
+                        color: rgb(14, 166, 133)
+                        ">fabrik</h1></b>
                     </a>
 
                     <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
@@ -54,14 +54,20 @@
 
         <div>
             <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-                <h1 class="lg:text-3xl text-xl font-semibold mb-6"> Sign up</h1>
-                <!--<p class="mb-2 text-black text-lg"> Register to manage your account </p>-->
+                <h1 style="
+                font-family: Helvetica;
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: rgb(14, 166, 133);
+
+                "
+                > Log in</h1>
                 
                 <div>
                     <style>
-                        h5{
+                        /* h5{
                             color: red;
-                        }
+                        } */
                     </style>
                     {% for message in messages %}
                     <h5>{{message}}</h5>
@@ -86,7 +92,19 @@
                         </div>
                         <a href="#"> Terms and Conditions</a>
                     </div>
-                    <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Sign Up</button>
+                    <button type="submit" style ="
+                    font-size: 2rem; 
+                    font-family: arial;
+                    font-weight: bold;
+                    color: rgb(14, 166, 133);
+                    display: inline-block;
+                    padding: 10px;
+                    border: 3px solid black;
+                    background: rgb(34, 34, 35);
+                    border-radius: 12px;
+                    
+                    " 
+                    class="rounded-md text-white text-xl to-red-400 w-full">Sign Up</button>
                     <div class="text-center mt-5 space-x-2">
                         <p class="text-base"> Do you have an account? <a href="/signin"> Login </a></p>
                     </div>

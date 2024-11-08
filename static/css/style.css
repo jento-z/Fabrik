@@ -14,7 +14,7 @@
 ===============*/
 html,body{
 	font-family: calibri;
-    background: #ff0000;
+    background: #ffffff;
 }
 
 .bio{
@@ -27,7 +27,7 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    color: #ff0000;
+    color: #ffffff;
     background: rgba(0, 0, 0, .4);
 }
 
@@ -209,7 +209,7 @@ section {
 }
 
 .pattern:before {
-    background: pink url("../images/dot-pattern.png") repeat scroll 0 0;
+    background: rgb(255, 255, 255) url("../images/dot-pattern.png") repeat scroll 0 0;
     opacity: 0.45;
 }
 
@@ -218,7 +218,7 @@ section {
 }
 
 .bluesh:before {
-    background: pink;
+    background: rgb(255, 255, 255);
 }
 
 .exthigh-opacity:before {
@@ -256,7 +256,7 @@ section {
 .gray-bg {
     float: left;
     width: 100%;
-    background: #e5dad2;
+    background: #ffffff;
 }
 
 [type="submit"],
@@ -750,14 +750,10 @@ header.sticky {
 }
 
 .user-avatar {
-    border: 2px solid pink;
-    border-radius: 10px;
-    border-right-color: #4680ff;
-    border-top-color: #4680ff;
-    border-left-color: pink;
-    box-shadow: 0 1px 0 pink;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 15px;
     float: right;
-    margin-top: -168px;
+    margin-top: -150px;
     overflow: hidden;
     position: relative;
     width: 100%;

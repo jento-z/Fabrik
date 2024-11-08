@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Tiny5&family=VT323&display=swap" rel="stylesheet">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,47 +13,146 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 	<title>Profile - {{user_profile.user.username}}</title>
-   <!-- <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> -->
-    
+
     <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/color.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.banner-img{
+			display: grid;
+		}
+		.center-fit{
+			max-width: 100%;
+            /* margin: auto; */
+		}
+		.profile-image {
+			float: right;
+			margin-top: -200px;
+			/* overflow: hidden; */
+			position: absolute;
+			width: 20%;
+			height: 20%;
+		}
+
+		a:link {
+			color: #f6f4ebff;
+			text-decoration: none;
+		}
+		a:visited {
+			color: #f6f4ebff;
+			text-decoration: none;
+		}
+		a:hover {
+			color: rgb(33, 239, 70);
+			text-decoration: none;
+		}
+		a:active {
+			color: #f6f4ebff;
+			text-decoration: none;
+		}
+
+		.profile-info-bar{
+			/* padding-left: 21%; */
+			background:rgb(167, 167, 167);
+		}
+
+		.info-bar-items{
+			padding-left: 2%;
+			color: rgb(0, 0, 0); 
+			font-size: 1.3rem;
+
+		}
+
+		.settings-or-follow{
+			font-size: 1.3rem; 
+			background-color: #3eac8bff; 
+			float: right;
+			border: none;
+			padding-left: 10px;
+			padding-right: 10px;
+			font-weight: bold;
+			border: 2px solid black;
+		}
+
+		.bio{
+			background: #f6f4ebff;
+			font-size: 1rem;
+			width: 50%;
+		}
+
+	</style>
+
 </head>
+
 <body>
-<!--<div class="se-pre-con"></div>-->
-<div class="theme-layout">
 	
 	</div>
 	
 	<section>
-			<div class="feature-photo">
-				<figure><img src="{% static 'images/resources/timeline-1.jpg' %}" alt=""></figure>
+		<header style ="background:#3eac8bff">
+			<b><h1 style="
+				font-family: Rozha One, serif;
+				font-size: 3.5rem; 
+				color:  #f6f4ebff;
+				padding-left: 20px
+			"><a href="/">fabrik</a>
+		</header>
+
+                </div>
+				<div class="banner-img">
+					<img class="center-fit" src="{% static 'images/resources/timeline-1.jpg' %}">
+				</div>
+
+				<div class="profile-image">
+					<figure>
+						<img src="{{user_profile.profileimg.url}}" style="
+							position: absolute; 
+							height: 200px; 
+							width: 100%;
+							padding-left: 10px;
+							padding-bottom: 10px;
+							border-radius: 50%
+							">
+					</figure>
+				</div>
+				<h5 style="
+					background: #3eac8bff; 
+					position:relative; 
+					color: #f6f4ebff; 
+					white-space: nowrap; 
+					font-size: 27px;
+					padding-left: 1%;
+				"><b>@{{user_profile.user.username}}'s closet</b></h5>
+	
 				<form action="/follow" method="POST">
 					{% csrf_token %}
-					<div class="add-btn">
-					<span style="color: white; font-size: 27px; margin-right: 520px;"><b><u><a href="/">Home</a></u></b></span>
-					
-					{% if user_post_length == 0 %}
-					<span style="color: white; font-size: 27px;"><b>No Posts</b></span>
-					{% elif user_post_length == 1 %}
-					<span style="color: white; font-size: 27px;"><b>{{user_post_length}} Post</b></span>
-					{% else %}
-					<span style="color: white; font-size: 27px;"><b>{{user_post_length}} Posts</b></span>
-					{% endif %}
+					<div class="profile-info-bar">
+						
+						{% if user_post_length == 0 %}
+						<span class="info-bar-items"><b>0 posts</b></span>
+						{% elif user_post_length == 1 %}
+						<span class="info-bar-items"><b>{{user_post_length}} post</b></span>
+						{% else %}
+						<span class="info-bar-items"><b>{{user_post_length}} posts</b></span>
+						{% endif %}
 
-					<span style="color: white; font-size: 27px;"><b>1.7m followers</b></span>
-					<span style="color: white; font-size: 27px;"><b>3.5k following</b></span>
+						<span class="info-bar-items"><b>0 followers</b></span>
+						<span class="info-bar-items"><b>0 following</b></span>
 
-					<input type="hidden" value="{{user.username}}" name="follower" />
-					<input type="hidden" value="{{user_object.username}}" name="user" />
+						<input type="hidden" value="{{user.username}}" name="follower" />
+						<input type="hidden" value="{{user_object.username}}" name="user" />
 
-					{% if user_object.username != user.username %}
-					<a data-ripple=""><button type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">Follow</button></a>
-					{% else %}
-					<a href="/settings" data-ripple=""><button type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">Account Settings</button></a>
-					{% endif %}
+						{% if user_object.username != user.username %}
+						<a data-ripple=""><button type="submit" class="settings-or-follow">Follow</button></a>
+						{% else %}
+						<a href="/settings" data-ripple=""><button type="submit" class="settings-or-follow" >Account Settings</button></a>
+						{% endif %}
 					</div>
 				</form>
 
@@ -64,25 +166,14 @@
 				<div class="container-fluid">
 					<div class="row merged">
 						<div class="col-lg-2 col-sm-3">
-							<div class="user-avatar">
-								<figure>
-									<img src="{{user_profile.profileimg.url}}" style="height: 250px; width: 100%;" alt="">
-									<!-- <form class="edit-phto">
-										<i class="fa fa-camera-retro"></i>
-										<label class="fileContainer">
-											<a href="#account-settings">Upload Profile Photo</a>
-										</label>
-									</form> -->
-								</figure>
-							</div>
+							
 						</div>
 						<div class="col-lg-10 col-sm-9">
 							<div class="timeline-info">
-								<ul>
+								<!-- <ul>
 									<li class="admin-name">
-									  <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;"><b>@{{user_profile.user.username}}</b><!--<i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i>--></h5>
-									  <!--<span>Group Admin</span>-->
-									</li>
+									  <--<span>Group Admin</span>-->
+									<!-- </li> -->
 									<!--<li>
 										<a class="" href="javascript:void(0)" title="" data-ripple="">Go live!</a>
 										<a class="" href="javascript:void(0)" title="" data-ripple="">Music</a>
@@ -99,12 +190,12 @@
 										<a class="" href="#" title="" data-ripple="">more</a>
 
 									</li>-->
-								</ul>
+								<!-- </ul> -->
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			<!-- </div> -->
 		</section><!-- top area -->
 		<section>
 			<div class="bio">
@@ -126,15 +217,6 @@
 								</aside>
 							</div><!-- sidebar -->
 							
-
-
-
-
-
-
-
-
-
 							<div class="col-lg-6">
 								<div class="central-meta">
 									<ul class="photos">

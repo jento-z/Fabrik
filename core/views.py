@@ -8,13 +8,13 @@ from .models import Profile, Post, LikePost, FollowersCount
 
 
 # Create your views here.
-
 @login_required(login_url='signin')
 def index(request):
     #return HttpResponse('<h1>Welcome To Social Book</h1>')
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
 
+    # TODO: Need to only show following profile posts
     posts = Post.objects.all()
 
     return render(request, 'index.html', {'user_profile': user_profile, 'posts':posts})

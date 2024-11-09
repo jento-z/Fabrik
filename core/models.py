@@ -16,6 +16,29 @@ class Profile(models.Model):
     def __srt__(self):
         return self.user.username
     
+class ClosetItem(models.Model):
+    CATEGORY_CHOICES = [
+        ('Tops', 'Tops'),
+        ('Bottoms', 'Bottoms'),
+        ('Shoes', 'Shoes'),
+        ('Hats', 'Hats'),
+        ('Accessories', 'Accessories')
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Links each item to a specific user
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)  # Selects the item category
+    item_name = models.CharField(max_length=100)  # Name or description of the item
+    image = models.ImageField(upload_to='closet_items')  # Image of the clothing item
+    date_added = models.DateTimeField(default=datetime.now)  # Date the item was added
+
+    # Optional Fields
+    size = models.CharField(max_length=10, blank=True, null=True)  # e.g., S, M, L
+    color = models.CharField(max_length=50, blank=True, null=True)  # e.g., Red, Blue
+    brand = models.CharField(max_length=50, blank=True, null=True)  # e.g., Nike, Zara
+    
+    def __str__(self):
+        return f"{self.item_name} ({self.category}) - {self.user.username}"
+    
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.CharField(max_length=100)

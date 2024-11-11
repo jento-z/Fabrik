@@ -3,9 +3,38 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount
+from .models import Profile, Post, LikePost, FollowersCount, ClosetItem
 
 
+@login_required(login_url='signin')
+def create_outfit(request):
+    # Fetch items by category
+    hats = ClosetItem.objects.filter(user=request.user, category='Hats')
+    tops = ClosetItem.objects.filter(user=request.user, category='Tops')
+    bottoms = ClosetItem.objects.filter(user=request.user, category='Bottoms')
+    shoes = ClosetItem.objects.filter(user=request.user, category='Shoes')
+    accessories = ClosetItem.objects.filter(user=request.user, category='Accessories')
+
+    if request.method == 'POST':
+        # Handle the outfit creation process here
+        hat_id = request.POST.get('hat')
+        top_id = request.POST.get('top')
+        bottom_id = request.POST.get('bottom')
+        shoes_id = request.POST.get('shoes')
+        accessories_id = request.POST.get('accessories')
+        
+        # Process selected items and save outfit as needed
+
+        return redirect('home')  # Redirect to home or any other page after submission
+
+    context = {
+        'hats': hats,
+        'tops': tops,
+        'bottoms': bottoms,
+        'shoes': shoes,
+        'accessories': accessories
+    }
+    return render(request, 'createoutfit.html', context)
 
 # Create your views here.
 @login_required(login_url='signin')

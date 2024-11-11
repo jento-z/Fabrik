@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
+    <title>Settings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+
+</head>
+
+<body style ="background:#f6f4ebff">
+
+    <div id="wrapper" class="flex flex-col justify-between h-screen">
+
+        <!-- header-->
+        <div class="py-4 shadow dark:bg-gray-800" style ="background:#3eac8bff">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-center lg:justify-between justify-around">
+                    <a href="/">
+                       <b><h1 style="
+                        font-family: Rozha One, serif;
+                        font-size: 3.5rem; 
+                        color: #f6f4ebff;
+                        ">fabrik</h1></b>
+                    </a>
+
+                    <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
+                        <a href="/" class="bg-white px-6 py-3 rounded-md shadow text-black">Home</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+       
+        <!-- Form for Creating Outfit -->
+        <form action="{% url 'create-outfit' %}" method="POST" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg mt-8">
+            {% csrf_token %}
+            <h2 class="text-2xl font-semibold mb-4 text-center">Create Your Outfit</h2>
+
+            <!-- Hat Selection -->
+            <label for="hat" class="block font-semibold mb-2">Hat</label>
+            <select name="hat" id="hat" class="w-full p-2 mb-4 border rounded">
+                <option value="">Select a Hat</option>
+                {% for item in hats %}
+                    <option value="{{ item.id }}">{{ item.item_name }}</option>
+                {% empty %}
+                    <option disabled>No hats available</option>
+                {% endfor %}
+            </select>
+
+            <!-- Top Selection -->
+            <label for="top" class="block font-semibold mb-2">Top</label>
+            <select name="top" id="top" class="w-full p-2 mb-4 border rounded">
+                <option value="">Select a Top</option>
+                {% for item in tops %}
+                    <option value="{{ item.id }}">{{ item.item_name }}</option>
+                {% empty %}
+                    <option disabled>No tops available</option>
+                {% endfor %}
+            </select>
+
+            <!-- Bottom Selection -->
+            <label for="bottom" class="block font-semibold mb-2">Bottom</label>
+            <select name="bottom" id="bottom" class="w-full p-2 mb-4 border rounded">
+                <option value="">Select a Bottom</option>
+                {% for item in bottoms %}
+                    <option value="{{ item.id }}">{{ item.item_name }}</option>
+                {% empty %}
+                    <option disabled>No bottoms available</option>
+                {% endfor %}
+            </select>
+
+            <!-- Shoes Selection -->
+            <label for="shoes" class="block font-semibold mb-2">Shoes</label>
+            <select name="shoes" id="shoes" class="w-full p-2 mb-4 border rounded">
+                <option value="">Select Shoes</option>
+                {% for item in shoes %}
+                    <option value="{{ item.id }}">{{ item.item_name }}</option>
+                {% empty %}
+                    <option disabled>No shoes available</option>
+                {% endfor %}
+            </select>
+
+            <!-- Accessories Selection -->
+            <label for="accessories" class="block font-semibold mb-2">Accessories</label>
+            <select name="accessories" id="accessories" class="w-full p-2 mb-4 border rounded">
+                <option value="">Select Accessories</option>
+                {% for item in accessories %}
+                    <option value="{{ item.id }}">{{ item.item_name }}</option>
+                {% empty %}
+                    <option disabled>No accessories available</option>
+                {% endfor %}
+            </select>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-pink-500 text-white font-semibold py-2 mt-4 rounded">Submit Outfit</button>
+        </form>
+
+    </div>
+
+
+    <!-- Scripts ================================================== -->
+    <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
+    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/uikit.js' %}"></script>
+    <script src="{% static 'assets/js/simplebar.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
+</body>
+
+</html>

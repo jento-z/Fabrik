@@ -1,177 +1,256 @@
-{% load static %}
 
-<!-- I'm experimenting with adapting the account settings template into a profile
-page, since it already has an outline of different tabs etc. - Isabella -->
+
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Tiny5&family=VT323&display=swap" rel="stylesheet">
+
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
-    <title>Profile</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+	<title>Profile - {{user_profile.user.username}}</title>
+
+    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/color.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.banner-img{
+			display: grid;
+		}
+		.center-fit{
+			max-width: 100%;
+            /* margin: auto; */
+		}
+		.profile-image {
+			float: right;
+			margin-top: -200px;
+			/* overflow: hidden; */
+			position: absolute;
+			width: 20%;
+			height: 20%;
+		}
+
+		a:link {
+			color: #f6f4ebff;
+			text-decoration: none;
+		}
+		a:visited {
+			color: #f6f4ebff;
+			text-decoration: none;
+		}
+		a:hover {
+			color: rgb(33, 239, 70);
+			text-decoration: none;
+		}
+		a:active {
+			color: #f6f4ebff;
+			text-decoration: none;
+		}
+
+		.profile-info-bar{
+			/* padding-left: 21%; */
+			background:rgb(167, 167, 167);
+		}
+
+		.info-bar-items{
+			padding-left: 2%;
+			color: rgb(0, 0, 0); 
+			font-size: 1.3rem;
+
+		}
+
+		.settings-or-follow{
+			font-size: 1.3rem; 
+			background-color: #3eac8bff; 
+			float: right;
+			border: none;
+			padding-left: 10px;
+			padding-right: 10px;
+			font-weight: bold;
+			border: 2px solid black;
+		}
+
+		.bio{
+			background: #f6f4ebff;
+			font-size: 1rem;
+			width: 50%;
+		}
+
+	</style>
 
 </head>
 
-
 <body>
-            <div class="container m-auto"> 
-
-                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href = '/'>Home</a> / <b> {{user.username}}</b>'s Closet</h1>
-                <ul class="mt-5 -mr-3 flex-nowrap lg:overflow-hidden overflow-x-scroll uk-tab">
-                    <!-- <li class="uk-active"><a href="#">General</a></li> -->
-                    <li><a href="#">Outfits</a></li>
-                    <li><a href="#">Items</a></li>
-                    <li><a href="#">Likes</a></li>
-                    <!-- <li><a href="#">Social links</a></li> -->
-                </ul>
-
-                <div class="grid lg:grid-cols-3 mt-12 gap-8">
-                    <div>
-                        <h3 class="text-xl mb-2"> General </h3>
-                        <p></p>
-                    </div>
-                    <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
-                        
-                    <form action ="" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                       <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
-                           <!-- <div>
-                               <label for=""> First name</label>
-                               <input type="text" placeholder="Your name.." class="shadow-none bg-gray-100">
-                           </div>
-                           <div>
-                               <label for=""> Last name</label>
-                               <input type="text" placeholder="Your name.." class="shadow-none bg-gray-100">
-                            </div>
-                            <div class="col-span-2">
-                                <label for=""> Email</label>
-                                <input type="text" placeholder="Your name.." class="shadow-none bg-gray-100">
-                            </div> -->
-                            <div class="col-span-2">
-                                <label for=""> Profile Image</label>
-                                <img width='100' height='100' src="{{user_profile.profileimg.url}}" />
-                                <input type="file" name = "image" value="" class="shadow-none bg-gray-100">
-                            </div>
-                            <div class="col-span-2">
-                                <label for="about">Bio</label>  
-                                <textarea id="about" name="bg-gradient-to-t" rows="3"  class="shadow-none bg-gray-100">{{user_profile.bio}}</textarea>
-                            </div> 
-                            <div class="col-span-2">
-                                <label for=""> Location</label>
-                                <input type="text" name = "location" value="{{user_profile.locationy}}" class="shadow-none bg-gray-100">
-                            </div>
-                            <!-- <div>
-                               <label for=""> Working at</label>
-                               <input type="text" placeholder="" class="shadow-none bg-gray-100">
-                            </div> 
-                            <div>
-                               <label for=""> Relationship </label>
-                               <select id="relationship" name="relationship"  class="shadow-none bg-gray-100">
-                                <option value="0">None</option>
-                                <option value="1">Single</option>
-                                <option value="2">In a relationship</option>
-                                <option value="3">Married</option>
-                                <option value="4">Engaged</option>
-                              </select>
-                            </div> -->
-                       </div> 
-                       
-                       
-                       <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
-                           <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> <a href="/"> Cancel </a></button>
-                           <button type="submit" class="button bg-blue-700"> Save </button>
-                       </div>
-
-                    </form>
-                    </div>
-
-                    <!-- <div>
-                        <h3 class="text-xl mb-2"> Privacy</h3>
-                        <p> </p>
-                    </div>
-                    <div class="bg-white rounded-md lg:shadow-lg shadow lg:p-6 p-4 col-span-2">
-
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Who can follow me ?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Show my activities ?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox" checked><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Search engines?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Allow Commenting?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-    
-                    </div>
-                    <br>
+	
+	</div>
+	
+	<section>
+		<header style ="background:#3eac8bff">
+			<b><h1 style="
+				font-family: Rozha One, serif;
+				font-size: 3.5rem; 
+				color:  #f6f4ebff;
+				padding-left: 20px
+			"><a href="/">fabrik</a>
+		</header>
 
                 </div>
+				<div class="banner-img">
+					<img class="center-fit" src="{% static 'images/resources/timeline-1.jpg' %}">
+				</div>
 
-            </div>
-            
-        </div>
+				<div class="profile-image">
+					<figure>
+						<img src="{{user_profile.profileimg.url}}" style="
+							position: absolute; 
+							height: 200px; 
+							width: 100%;
+							padding-left: 10px;
+							padding-bottom: 10px;
+							border-radius: 50%
+							">
+					</figure>
+				</div>
+				<h5 style="
+					background: #3eac8bff; 
+					position:relative; 
+					color: #f6f4ebff; 
+					white-space: nowrap; 
+					font-size: 27px;
+					padding-left: 1%;
+				"><b>@{{user_profile.user.username}}'s closet</b></h5>
+	
+				<form action="/follow" method="POST">
+					{% csrf_token %}
+					<div class="profile-info-bar">
+						
+						{% if user_post_length == 0 %}
+						<span class="info-bar-items"><b>0 posts</b></span>
+						{% elif user_post_length == 1 %}
+						<span class="info-bar-items"><b>{{user_post_length}} post</b></span>
+						{% else %}
+						<span class="info-bar-items"><b>{{user_post_length}} posts</b></span>
+						{% endif %}
 
-    </div>
+						<span class="info-bar-items"><b>0 followers</b></span>
+						<span class="info-bar-items"><b>0 following</b></span>
 
+						<input type="hidden" value="{{user.username}}" name="follower" />
+						<input type="hidden" value="{{user_object.username}}" name="user" />
 
-    
+						{% if user_object.username != user.username %}
+						<a data-ripple=""><button type="submit" class="settings-or-follow">Follow</button></a>
+						{% else %}
+						<a href="/settings" data-ripple=""><button type="submit" class="settings-or-follow" >Account Settings</button></a>
+						{% endif %}
+					</div>
+				</form>
 
- <!-- Scripts
-    ================================================== -->
-    <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
-    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/uikit.js' %}"></script>
-    <script src="{% static 'assets/js/simplebar.js' %}"></script>
-    <script src="{% static 'assets/js/custom.js' %}"></script>
+				<!-- <form class="edit-phto">
+					<i class="fa fa-camera-retro"></i>
+					<label class="fileContainer">
+						Upload Cover Photo
+					<input type="file"/>
+					</label>
+				</form> -->
+				<div class="container-fluid">
+					<div class="row merged">
+						<div class="col-lg-2 col-sm-3">
+							
+						</div>
+						<div class="col-lg-10 col-sm-9">
+							<div class="timeline-info">
+								<!-- <ul>
+									<li class="admin-name">
+									  <--<span>Group Admin</span>-->
+									<!-- </li> -->
+									<!--<li>
+										<a class="" href="javascript:void(0)" title="" data-ripple="">Go live!</a>
+										<a class="" href="javascript:void(0)" title="" data-ripple="">Music</a>
+										<a class="" href="emporium/index-3.html" title="" data-ripple="">Emporium</a>
+										<a class="" href="fitness/index.html" title="" data-ripple="">Health Inspection</a>
+										<a class="" href="settings/account-setting.html" title="" data-ripple="">Settings</a>
+										<a class="" href="javascript:void(0)" title="" data-ripple="">Upload</a>
+										<a class="" href="time-line.html" title="" data-ripple="">time line</a>
+										<a class="" href="timeline-photos.html" title="" data-ripple="">Photos</a>
+										<a class="" href="timeline-videos.html" title="" data-ripple="">Videos</a>
+										<a class="" href="timeline-friends.html" title="" data-ripple="">Friends</a>
+										<a class="" href="timeline-groups.html" title="" data-ripple="">Groups</a>
+										<a class="" href="about.html" title="" data-ripple="">about</a>
+										<a class="" href="#" title="" data-ripple="">more</a>
 
+									</li>-->
+								<!-- </ul> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- </div> -->
+		</section><!-- top area -->
+		<section>
+			<div class="bio">
+				{{user_profile.bio}}
+			</div>
+		</section>
+		
+	<section>
+		<div class="gap gray-bg">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row" id="page-contents">
+							<div class="col-lg-3">
+								<aside class="sidebar static">
+									
+									
+									
+								</aside>
+							</div><!-- sidebar -->
+							
+							<div class="col-lg-6">
+								<div class="central-meta">
+									<ul class="photos">
+										{% for post in user_posts reversed %}
+										<li>
+											<a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+												<img src="{{post.image.url}}" style="height: 250px; width: 300px;" alt=""></a>
+										</li>
+										{% endfor %}
+										
+									</ul>
+									<!--<div class="lodmore"><button class="btn-view btn-load-more"></button></div>-->
+								</div><!-- photos -->
+							</div><!-- centerl meta -->
+							<div class="col-lg-3">
+								<aside class="sidebar static">
+									
+								</aside>
+							</div><!-- sidebar -->
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>	
+	</section>
 
-    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
-</body>
+	
+	
+	<script data-cfasync="false" src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script><script src="{% static 'js/main.min.js' %}"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+
+</body>	
+
 
 </html>

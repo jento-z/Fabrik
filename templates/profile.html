@@ -41,9 +41,10 @@
 								<input type="hidden" value="{{user_object.username}}" name="user" />
 			
 								{% if user_object.username != user.username %}
-								<a data-ripple=""><button type="submit" class="settings-or-follow">Follow</button></a>
+								<a data-ripple=""><button type="submit" class="settings-or-follow">{{button_text}}</button></a>
 								{% else %}
-								<a href="/settings" data-ripple=""><button type="submit" class="settings-or-follow" >Account Settings</button></a>
+								<!-- <a href="/settings" data-ripple=""><button type="submit" class="settings-or-follow" >Account Settings</button></a> -->
+								<a href="/settings" data-ripple="">Account Settings</a>
 								{% endif %}
 							</div>
 						</form>
@@ -65,8 +66,13 @@
 					<span class="info-bar-items"><b>{{user_post_length}} posts</b></span>
 					{% endif %}
 
-					<span class="info-bar-items"><b>0 followers</b></span>
-					<span class="info-bar-items"><b>0 following</b></span>
+					{% if user_followers == 1 %}
+					<span class="info-bar-items"><b>{{user_followers}} follower</b></span>
+					{% else %}
+					<span class="info-bar-items"><b>{{user_followers}} followers</b></span>
+					{% endif %}
+					
+					<span class="info-bar-items"><b>{{user_following}} following</b></span>
 				</div>
 			</form>
 		</div>

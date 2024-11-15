@@ -3,13 +3,13 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount, ClosetItem
+from .models import Profile, Post, LikePost, FollowersCount, ClosetItem, Outfit
 from itertools import chain
 
 
-@login_required(login_url='signin')
+@login_required
 def create_outfit(request):
-    # Fetch items by category
+    # Fetch items by category to display in the dropdowns
     hats = ClosetItem.objects.filter(user=request.user, category='Hats')
     tops = ClosetItem.objects.filter(user=request.user, category='Tops')
     bottoms = ClosetItem.objects.filter(user=request.user, category='Bottoms')
@@ -17,16 +17,32 @@ def create_outfit(request):
     accessories = ClosetItem.objects.filter(user=request.user, category='Accessories')
 
     if request.method == 'POST':
-        # Handle the outfit creation process here
+        # Get selected items' IDs from the form
         hat_id = request.POST.get('hat')
         top_id = request.POST.get('top')
         bottom_id = request.POST.get('bottom')
         shoes_id = request.POST.get('shoes')
         accessories_id = request.POST.get('accessories')
         
-        # Process selected items and save outfit as needed
+        # Retrieve ClosetItem instances based on the selected IDs, or None if not selected
+        hat = ClosetItem.objects.get(id=hat_id) if hat_id else None
+        top = ClosetItem.objects.get(id=top_id) if top_id else None
+        bottom = ClosetItem.objects.get(id=bottom_id) if bottom_id else None
+        shoes = ClosetItem.objects.get(id=shoes_id) if shoes_id else None
+        accessories = ClosetItem.objects.get(id=accessories_id) if accessories_id else None
 
-        return redirect('home')  # Redirect to home or any other page after submission
+        # Create the Outfit instance
+        outfit = Outfit.objects.create(
+            user=request.user,
+            hat=hat,
+            top=top,
+            bottom=bottom,
+            shoes=shoes,
+            accessories=accessories
+        )
+
+        # Redirect to a page where the outfit is displayed or to the main outfits page
+        return redirect('outfit_list')  # Replace 'outfit_list' with the name of your target URL
 
     context = {
         'hats': hats,

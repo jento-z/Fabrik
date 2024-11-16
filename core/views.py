@@ -237,10 +237,7 @@ def profile(request, pk):
         'user_profile': user_profile,
         'user_clothing': user_clothing,
         'user_clothing_length': user_clothing_length,
-        'is_own_profile': is_own_profile,
-        'button_text': button_text,
-        'user_followers': user_followers,
-        'user_following': user_following
+        'is_own_profile': is_own_profile
     }
 
     return render(request, 'profile.html', context)

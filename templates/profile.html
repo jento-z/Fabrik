@@ -58,12 +58,12 @@
 			<form action="/follow" method="POST">
 				{% csrf_token %}
 				<div class="profile-info">
-					{% if user_post_length == 0 %}
-					<span class="info-bar-items"><b>0 posts</b></span>
-					{% elif user_post_length == 1 %}
-					<span class="info-bar-items"><b>{{user_post_length}} post</b></span>
+					{% if user_clothing_length == 0 %}
+					<span class="info-bar-items"><b>0 clothes</b></span>
+					{% elif user_clothing_length == 1 %}
+					<span class="info-bar-items"><b>{{user_clothing_length}} clothing item</b></span>
 					{% else %}
-					<span class="info-bar-items"><b>{{user_post_length}} posts</b></span>
+					<span class="info-bar-items"><b>{{user_clothing_length}} clothes</b></span>
 					{% endif %}
 
 					{% if user_followers == 1 %}
@@ -79,17 +79,19 @@
 
 		<div class="row content-section">
             <div class="timeline">
-                <div class="items">
-					Clothes
-				</div>
-				<ul class="row photos">
-					{% for post in user_posts reversed %}
-					<li>
-						<a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-							<img src="{{post.image.url}}" style="height: 150px; width: 150px;" class="post" alt=""></a>
-					</li>
-					{% endfor %}
-				</ul>
+				{% if is_own_profile %}
+					<div class="items">
+						Clothes
+					</div>
+					<ul class="row photos">
+						{% for clothing in user_clothing %}
+						<li>
+							<a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+								<img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
+						</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
 				<div class="items">
 					Outfits
 				</div>

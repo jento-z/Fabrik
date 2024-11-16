@@ -200,13 +200,20 @@ def search(request):
 def upload(request):
 
     if request.method == 'POST':
-        user = request.user.username
+        user = request.user
         image= request.FILES.get('image_upload')
-        caption = request.POST['caption']
+        item_name = request.POST.get('item_name', '')
+        category = request.POST.get('category', '')
 
-        new_post = Post.objects.create(user=user, image=image, caption=caption)
-        new_post.save()
 
+        # Create a new ClosetItem instance
+        new_item = ClosetItem.objects.create(
+            user=user,
+            item_name=item_name,
+            category=category,
+            image=image
+        )
+        new_item.save()
         return redirect('/')
     else:
         return redirect('/')
@@ -220,25 +227,17 @@ def logout(request):
 def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
-    user_posts = Post.objects.filter(user=pk)
-    user_post_length = len(user_posts)
+    user_clothing = ClosetItem.objects.filter(user=user_object).order_by('-date_added')
+    user_clothing_length = len(user_clothing)
 
-    follower = request.user.username
-    user = pk
-
-    if FollowersCount.objects.filter(follower=follower, user=user).first():
-        button_text = 'Unfollow'
-    else:
-        button_text = 'Follow'
-
-    user_followers = len(FollowersCount.objects.filter(user=pk))
-    user_following = len(FollowersCount.objects.filter(follower=pk))
+    is_own_profile = (request.user == user_object)
 
     context = {
         'user_object': user_object,
         'user_profile': user_profile,
-        'user_posts': user_posts,
-        'user_post_length': user_post_length,
+        'user_clothing': user_clothing,
+        'user_clothing_length': user_clothing_length,
+        'is_own_profile': is_own_profile,
         'button_text': button_text,
         'user_followers': user_followers,
         'user_following': user_following

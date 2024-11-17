@@ -3,8 +3,14 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
 from .models import Profile, Post, LikePost, FollowersCount, ClosetItem, Outfit
 from itertools import chain
+
+### Third party imports
+from rembg import remove
+from PIL import Image
+from io import BytesIO
 
 
 @login_required
@@ -205,15 +211,30 @@ def upload(request):
         item_name = request.POST.get('item_name', '')
         category = request.POST.get('category', '')
 
+        if image:
+            # Open the uploaded image
+            original_image = Image.open(image)
 
-        # Create a new ClosetItem instance
-        new_item = ClosetItem.objects.create(
-            user=user,
-            item_name=item_name,
-            category=category,
-            image=image
-        )
-        new_item.save()
+            # Convert image to bytes and remove background
+            image_bytes = BytesIO()
+            original_image.save(image_bytes, format='PNG')
+            image_bytes = image_bytes.getvalue()
+
+            # Process image with rembg
+            processed_image_data = remove(image_bytes)
+
+            # Save the processed image as a new file
+            processed_image = ContentFile(processed_image_data, name=f"processed_{image.name}")
+
+            # Create a new ClosetItem instance
+            new_item = ClosetItem.objects.create(
+                user=user,
+                item_name=item_name,
+                category=category,
+                image=processed_image
+            )
+            new_item.save()
+            
         return redirect('/')
     else:
         return redirect('/')

@@ -6,12 +6,20 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from .models import Profile, Post, LikePost, FollowersCount, ClosetItem, Outfit
 from itertools import chain
+from .utils.weather import get_weather
 
 ### Third party imports
 from rembg import remove
 from PIL import Image
 from io import BytesIO
 
+@login_required
+def outfit_list(request):
+    # Retrieve all outfits created by the logged-in user
+    outfits = Outfit.objects.filter(user=request.user)
+
+    # Pass the outfits to the template for display
+    return render(request, 'outfit_list.html', {'outfits': outfits})
 
 @login_required
 def create_outfit(request):
@@ -21,6 +29,9 @@ def create_outfit(request):
     bottoms = ClosetItem.objects.filter(user=request.user, category='Bottoms')
     shoes = ClosetItem.objects.filter(user=request.user, category='Shoes')
     accessories = ClosetItem.objects.filter(user=request.user, category='Accessories')
+
+    # Fetch current weather
+    current_temp = get_weather()
 
     if request.method == 'POST':
         # Get selected items' IDs from the form
@@ -44,18 +55,20 @@ def create_outfit(request):
             top=top,
             bottom=bottom,
             shoes=shoes,
-            accessories=accessories
+            accessories=accessories,
         )
 
         # Redirect to a page where the outfit is displayed or to the main outfits page
-        return redirect('outfit_list')  # Replace 'outfit_list' with the name of your target URL
+        #return redirect('outfit_list')  # Replace 'outfit_list' with the name of your target URL
+        return redirect('index')
 
     context = {
         'hats': hats,
         'tops': tops,
         'bottoms': bottoms,
         'shoes': shoes,
-        'accessories': accessories
+        'accessories': accessories,
+        'current_temp': current_temp
     }
     return render(request, 'createoutfit.html', context)
 

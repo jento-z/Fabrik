@@ -279,6 +279,17 @@ def profile(request, pk):
     user_clothing = ClosetItem.objects.filter(user=user_object).order_by('-date_added')
     user_clothing_length = len(user_clothing)
 
+    follower = request.user.username
+    user = pk
+
+    if FollowersCount.objects.filter(follower=follower, user=user).first():
+        button_text = 'Unfollow'
+    else:
+        button_text = 'Follow'
+
+    user_followers = len(FollowersCount.objects.filter(user=pk))
+    user_following = len(FollowersCount.objects.filter(follower=pk))
+
     is_own_profile = (request.user == user_object)
 
     context = {
@@ -286,6 +297,9 @@ def profile(request, pk):
         'user_profile': user_profile,
         'user_clothing': user_clothing,
         'user_clothing_length': user_clothing_length,
+        'button_text': button_text,
+        'user_followers': user_followers,
+        'user_following': user_following,
         'is_own_profile': is_own_profile
     }
 

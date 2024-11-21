@@ -30,8 +30,21 @@ def create_outfit(request):
     shoes = ClosetItem.objects.filter(user=request.user, category='Shoes')
     accessories = ClosetItem.objects.filter(user=request.user, category='Accessories')
 
-    # Fetch current weather
-    current_temp = get_weather()
+    ## Fetch current weather data
+    weather_info = get_weather()
+    current_temp = weather_info.get('current_temperature_fahrenheit', 'N/A')
+    daily_high = weather_info.get('daily_high_fahrenheit', 'N/A')
+    weather_classification = weather_info.get('weather_classification', 'Unknown')
+
+    # Map weather classification to image file names
+    weather_images = {
+        "Sunny": "Sunny.png",
+        "Sun with Cloud Cover": "SunWithCloudCover.png",
+        "Sun with Cloud Cover and Rain": "SunWithCloudCoverandRain.png",
+        "Cloud Cover and Rain": "CloudCoverandRain.png",
+        "Cloud Cover": "CloudCover.png"
+    }
+    weather_image = weather_images.get(weather_classification, "SunWithCloudCover.png")  # Use a default image if classification is missing
 
     if request.method == 'POST':
         # Get selected items' IDs from the form
@@ -68,7 +81,9 @@ def create_outfit(request):
         'bottoms': bottoms,
         'shoes': shoes,
         'accessories': accessories,
-        'current_temp': current_temp
+        'current_temp': current_temp,
+        'daily_high': daily_high,
+        'weather_image': weather_image  # Add the image file path to the context
     }
     return render(request, 'createoutfit.html', context)
 

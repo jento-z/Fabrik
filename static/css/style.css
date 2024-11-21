@@ -10036,3 +10036,43 @@ aside.sidebar.full-style {
 }
 
 
+/*-- outfit grid --*/
+.outfit-grid {
+    display: grid;
+    grid-template-areas:
+        "top"
+        "bottom"
+        "hat"
+        "accessories"
+        "shoes";
+    gap: 10px; /* Adjust spacing between items */
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-item img {
+    width: 20%; /* Adjust image to fit within grid cell */
+    height: auto; /* Maintain aspect ratio */
+    border: 2px solid #ccc; /* Optional: Add border */
+    border-radius: 8px; /* Optional: Add rounded corners */
+}
+
+.grid-item.top {
+    grid-area: top;
+}
+
+.grid-item.bottom {
+    grid-area: bottom;
+}
+
+.grid-item.hat {
+    grid-area: hat;
+}
+
+.grid-item.accessories {
+    grid-area: accessories;
+}
+
+.grid-item.shoes {
+    grid-area: shoes;
+}

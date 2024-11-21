@@ -96,8 +96,9 @@ def index(request):
 
     # TODO: Need to only show following profile posts
     posts = Post.objects.all()
+    outfits = Outfit.objects.all()
 
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':posts})
+    return render(request, 'index.html', {'user_profile': user_profile, 'posts': posts, 'outfits': outfits})
 
 @login_required(login_url='signin')
 def like_post(request):

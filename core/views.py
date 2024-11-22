@@ -6,11 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from .models import Profile, Post, LikePost, FollowersCount, ClosetItem, Outfit
 from itertools import chain
-<<<<<<< HEAD
-import random
-=======
 from .utils.weather import get_weather
->>>>>>> cb09a8e187d1094f3455c9190a5d4548042476f6
+import random
 
 ### Third party imports
 from rembg import remove

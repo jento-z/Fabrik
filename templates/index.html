@@ -211,7 +211,7 @@
                 <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
                     <ul>
                         <li><a href="profile/{{user_profile.user.username}}"> Profile </a> </li>
-                        <li><a href="settings"> Account settings </a> </li>
+                        <li><a href="settings"> Account Settings </a> </li>
                         <!-- <li><a href="explore.html">explore </a> </li> -->
                         <!-- <li><a href="#"> Help </a> </li> -->
                         <li><a href="logout"> Log Out</a></li>
@@ -246,10 +246,11 @@
                             </a>
                             <span class="block capitalize font-semibold "> <a href="/profile/{{post.user}}">@{{post.user}}</a> </span>
                         </div>
+                        {% if post.user == user.username %}
                         <div>
                         <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>
                         <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100  " uk-drop="mode: hover;pos: top-right">
-                        
+                            
                             <ul class="space-y-1">
                                 <li> 
                                     <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md ">
@@ -274,15 +275,16 @@
                                 <li>
                                 <hr class="-mx-2 my-2 ">
                                 </li>
-                                <li> 
-                                    <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md ">
+                                <li>
+                                    <a href="/delete-post?post_id={{post.id}}" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md ">
                                     <i class="uil-trash-alt mr-1"></i>  Delete
                                     </a> 
                                 </li>
                             </ul>
-                        
+                            
                         </div>
                         </div>
+                        {% endif %}
                     </div>
 
                     <div uk-lightbox>

@@ -311,6 +311,18 @@ def upload(request):
         return redirect('/')
     else:
         return redirect('/')
+    
+@login_required(login_url='signin')
+def delete_post(request):
+
+    username = request.user.username
+    post_id = request.GET.get('post_id')
+    post = Post.objects.get(id=post_id)
+
+    # Post.objects.delete(id=post_id)
+    post.delete()
+
+    return redirect('/')
 
 @login_required(login_url='signin')
 def logout(request):

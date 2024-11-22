@@ -166,12 +166,14 @@ def post_outfit(request):
                     image=outfit.top.image if outfit.top else None,  # You can customize which image to show
                     caption=f"Check out my outfit: {outfit.hat.item_name if outfit.hat else ''}, {outfit.top.item_name if outfit.top else ''}, {outfit.bottom.item_name if outfit.bottom else ''}"
                 )
-                messages.success(request, "Outfit posted successfully!")
+                #messages.success(request, "Outfit posted successfully!")
             except Outfit.DoesNotExist:
-                messages.error(request, "Invalid outfit selected.")
+                #messages.error(request, "Invalid outfit selected.")
+                print("Invalid outfit selected.")
         else:
-            messages.error(request, "Please select an outfit.")
-    
+            #messages.error(request, "Please select an outfit.")
+            print("Please select an outfit.")
+
     return redirect('index')
 
 @login_required(login_url='signin')

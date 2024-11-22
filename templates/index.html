@@ -63,6 +63,37 @@
             </div>
             </form>
             <div class="right-side lg:pr-4">
+                <!-- post outfit dropdown -->
+                <div class="relative inline-block text-left">
+                    <button class="bg-pink-500 flex font-bold hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white"
+                        type="button" id="postOutfitButton" aria-haspopup="true" aria-expanded="true">
+                        <ion-icon name="add-circle" class="-mb-1 mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Post Outfit
+                    </button>
+                    <div class="hidden dropdown-menu origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        role="menu" aria-orientation="vertical" aria-labelledby="postOutfitButton">
+                        <form action="{% url 'post-outfit' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="py-1" role="none">
+                                <label for="outfit" class="block text-gray-700 px-4 py-2 text-sm">Select Outfit</label>
+                                <select name="outfit_id" id="outfit" class="w-full border rounded px-4 py-2">
+                                    <option value="">Choose Outfit</option>
+                                    {% for outfit in outfits %}
+                                        <option value="{{ outfit.id }}">{{ outfit.top.item_name }} / {{ outfit.bottom.item_name }}</option>
+                                    {% empty %}
+                                        <option disabled>No outfits available</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="py-1" role="none">
+                                <button type="submit"
+                                    class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded">
+                                    Post Outfit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
                 <!-- create outfit -->
                 <a href="{% url 'create-outfit' %}"
                     class="bg-pink-500 flex font-bold hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
@@ -467,16 +498,20 @@
 
     <!-- Script for checking if category field has been picked -->
     <script>
-    function checkCategory() {
-        const category = document.getElementById("category").value;
-        const uploadButton = document.getElementById("uploadButton");
-        
-        if (category) {
-            uploadButton.style.display = "inline-block"; // Show button if a valid category is selected
-        } else {
-            uploadButton.style.display = "none"; // Hide button if "Select category" is chosen
-        }
-    }
+        document.addEventListener('DOMContentLoaded', function () {
+            const button = document.getElementById('postOutfitButton');
+            const menu = document.querySelector('.dropdown-menu');
+
+            button.addEventListener('click', function () {
+                menu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!button.contains(event.target) && !menu.contains(event.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
     </script>
 
 </body>

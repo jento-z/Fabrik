@@ -31,11 +31,27 @@
                         color: #f6f4ebff;
                         ">fabrik</h1></b>
                     </a>
-
+                    
                     <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
                         <a href="/" class="bg-white px-6 py-3 rounded-md shadow text-black">Home</a>
                     </div>
-
+                </div>
+                <!-- Weather Information -->
+                <div class="text-center mt-4" style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                    <!-- Temperature Info -->
+                    <div>
+                        {% if current_temp and daily_high %}
+                            <p style="font-size: 1.8rem; color: white; margin: 5px;">Current: <strong>{{ current_temp }} °F</strong></p>
+                            <p style="font-size: 1.8rem; color: white; margin: 5px;">High: <strong>{{ daily_high }} °F</strong></p>
+                        {% else %}
+                            <p style="font-size: 1.2rem; color: white;">Unable to fetch temperature</p>
+                        {% endif %}
+                    </div>
+                
+                    <!-- Weather Icon -->
+                    {% if weather_image %}
+                        <img src="{% static 'weather_icons/'|add:weather_image %}" alt="Weather Icon" style="width: 90px; height: 90px;">
+                    {% endif %}
                 </div>
             </div>
         </div>

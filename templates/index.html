@@ -95,6 +95,7 @@
                                 </svg>
                             </div>
 
+                            <!-- Uploading clothes method -->
                             <form action="upload" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <p class="my-3 leading-6"> Upload Clothes
@@ -102,9 +103,19 @@
                             <div>
                                 <input type="file" name="image_upload">
                                 <!-- <a href="#" class="button soft-warning small"> Choose file</a>  -->
-                                <textarea class="button soft-warning small" name="caption" placeholder="caption..."></textarea>
+                                <select name="category" id="category" class="w-full p-2 mb-4 border rounded" onchange="checkCategory()">
+                                    <option value="">Select category</option>
+                                    <option value="Tops">Top</option>
+                                    <option value="Bottoms">Bottom</option>
+                                    <option value="Shoes">Shoe</option>
+                                    <option value="Hats">Hat</option>
+                                    <option value="Accessories">Accessory</option>
+                                </select>
+                                <textarea class="button soft-warning small" name="item_name" placeholder="The name of your item..."></textarea>
                                 <br>
-                                <button class="button bg-pink-700" type="submit">Upload</button>
+                                {% if category.value != "Select" %}
+                                <button id="uploadButton" class="button bg-pink-700" type="submit" style="display: none;">Upload</button>
+                                {% endif %}
                             </div>
                             </form>
                             <!-- <a href="#" class="uk-text-muted mt-3 uk-link"
@@ -451,6 +462,21 @@
 
 
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+
+    <!-- Script for checking if category field has been picked -->
+    <script>
+    function checkCategory() {
+        const category = document.getElementById("category").value;
+        const uploadButton = document.getElementById("uploadButton");
+        
+        if (category) {
+            uploadButton.style.display = "inline-block"; // Show button if a valid category is selected
+        } else {
+            uploadButton.style.display = "none"; // Hide button if "Select category" is chosen
+        }
+    }
+    </script>
+
 </body>
 
 

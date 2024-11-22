@@ -39,6 +39,21 @@ class ClosetItem(models.Model):
     def __str__(self):
         return f"{self.item_name} ({self.category}) - {self.user.username}"
     
+class Outfit(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, blank=True)  # Optional name for the outfit
+    created_at = models.DateTimeField(default=datetime.now)
+    
+    # Link each part of the outfit to a ClosetItem, allowing null if not used
+    hat = models.ForeignKey(ClosetItem, on_delete=models.SET_NULL, null=True, blank=True, related_name="hat_outfits")
+    top = models.ForeignKey(ClosetItem, on_delete=models.SET_NULL, null=True, blank=True, related_name="top_outfits")
+    bottom = models.ForeignKey(ClosetItem, on_delete=models.SET_NULL, null=True, blank=True, related_name="bottom_outfits")
+    shoes = models.ForeignKey(ClosetItem, on_delete=models.SET_NULL, null=True, blank=True, related_name="shoes_outfits")
+    accessories = models.ForeignKey(ClosetItem, on_delete=models.SET_NULL, null=True, blank=True, related_name="accessories_outfits")
+
+    def __str__(self):
+        return f"{self.name} - {self.user.username}" if self.name else f"Outfit by {self.user.username}"
+    
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.CharField(max_length=100)

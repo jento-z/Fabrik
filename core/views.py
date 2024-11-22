@@ -3,38 +3,91 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount, ClosetItem
+from django.core.files.base import ContentFile
+from .models import Profile, Post, LikePost, FollowersCount, ClosetItem, Outfit
 from itertools import chain
+<<<<<<< HEAD
 import random
+=======
+from .utils.weather import get_weather
+>>>>>>> cb09a8e187d1094f3455c9190a5d4548042476f6
 
+### Third party imports
+from rembg import remove
+from PIL import Image
+from io import BytesIO
 
-@login_required(login_url='signin')
+@login_required
+def outfit_list(request):
+    # Retrieve all outfits created by the logged-in user
+    outfits = Outfit.objects.filter(user=request.user)
+
+    # Pass the outfits to the template for display
+    return render(request, 'outfit_list.html', {'outfits': outfits})
+
+@login_required
 def create_outfit(request):
-    # Fetch items by category
+    # Fetch items by category to display in the dropdowns
     hats = ClosetItem.objects.filter(user=request.user, category='Hats')
     tops = ClosetItem.objects.filter(user=request.user, category='Tops')
     bottoms = ClosetItem.objects.filter(user=request.user, category='Bottoms')
     shoes = ClosetItem.objects.filter(user=request.user, category='Shoes')
     accessories = ClosetItem.objects.filter(user=request.user, category='Accessories')
 
+    ## Fetch current weather data
+    weather_info = get_weather()
+    current_temp = weather_info.get('current_temperature_fahrenheit', 'N/A')
+    daily_high = weather_info.get('daily_high_fahrenheit', 'N/A')
+    weather_classification = weather_info.get('weather_classification', 'Unknown')
+
+    # Map weather classification to image file names
+    weather_images = {
+        "Sunny": "Sunny.png",
+        "Sun with Cloud Cover": "SunWithCloudCover.png",
+        "Sun with Cloud Cover and Rain": "SunWithCloudCoverandRain.png",
+        "Cloud Cover and Rain": "CloudCoverandRain.png",
+        "Cloud Cover": "CloudCover.png"
+    }
+    weather_image = weather_images.get(weather_classification, "SunWithCloudCover.png")  # Use a default image if classification is missing
+
     if request.method == 'POST':
-        # Handle the outfit creation process here
+        # Get selected items' IDs from the form
         hat_id = request.POST.get('hat')
         top_id = request.POST.get('top')
         bottom_id = request.POST.get('bottom')
         shoes_id = request.POST.get('shoes')
         accessories_id = request.POST.get('accessories')
         
-        # Process selected items and save outfit as needed
+        # Retrieve ClosetItem instances based on the selected IDs, or None if not selected
+        hat = ClosetItem.objects.get(id=hat_id) if hat_id else None
+        top = ClosetItem.objects.get(id=top_id) if top_id else None
+        bottom = ClosetItem.objects.get(id=bottom_id) if bottom_id else None
+        shoes = ClosetItem.objects.get(id=shoes_id) if shoes_id else None
+        accessories = ClosetItem.objects.get(id=accessories_id) if accessories_id else None
 
-        return redirect('home')  # Redirect to home or any other page after submission
+        # Create the Outfit instance
+        outfit = Outfit.objects.create(
+            user=request.user,
+            hat=hat,
+            top=top,
+            bottom=bottom,
+            shoes=shoes,
+            accessories=accessories,
+        )
+
+        # Redirect to a page where the outfit is displayed or to the main outfits page
+        #return redirect('outfit_list')  # Replace 'outfit_list' with the name of your target URL
+        return redirect('index')
 
     context = {
         'hats': hats,
         'tops': tops,
         'bottoms': bottoms,
         'shoes': shoes,
-        'accessories': accessories
+        'accessories': accessories,
+        'current_temp': current_temp,
+        'daily_high': daily_high,
+        'weather_image': weather_image  # Add the image file path to the context
     }
     return render(request, 'createoutfit.html', context)
 
@@ -229,13 +282,35 @@ def search(request):
 def upload(request):
 
     if request.method == 'POST':
-        user = request.user.username
+        user = request.user
         image= request.FILES.get('image_upload')
-        caption = request.POST['caption']
+        item_name = request.POST.get('item_name', '')
+        category = request.POST.get('category', '')
 
-        new_post = Post.objects.create(user=user, image=image, caption=caption)
-        new_post.save()
+        if image:
+            # Open the uploaded image
+            original_image = Image.open(image)
 
+            # Convert image to bytes and remove background
+            image_bytes = BytesIO()
+            original_image.save(image_bytes, format='PNG')
+            image_bytes = image_bytes.getvalue()
+
+            # Process image with rembg
+            processed_image_data = remove(image_bytes)
+
+            # Save the processed image as a new file
+            processed_image = ContentFile(processed_image_data, name=f"processed_{image.name}")
+
+            # Create a new ClosetItem instance
+            new_item = ClosetItem.objects.create(
+                user=user,
+                item_name=item_name,
+                category=category,
+                image=processed_image
+            )
+            new_item.save()
+            
         return redirect('/')
     else:
         return redirect('/')
@@ -249,8 +324,8 @@ def logout(request):
 def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
-    user_posts = Post.objects.filter(user=pk)
-    user_post_length = len(user_posts)
+    user_clothing = ClosetItem.objects.filter(user=user_object).order_by('-date_added')
+    user_clothing_length = len(user_clothing)
 
     follower = request.user.username
     user = pk
@@ -263,14 +338,17 @@ def profile(request, pk):
     user_followers = len(FollowersCount.objects.filter(user=pk))
     user_following = len(FollowersCount.objects.filter(follower=pk))
 
+    is_own_profile = (request.user == user_object)
+
     context = {
         'user_object': user_object,
         'user_profile': user_profile,
-        'user_posts': user_posts,
-        'user_post_length': user_post_length,
+        'user_clothing': user_clothing,
+        'user_clothing_length': user_clothing_length,
         'button_text': button_text,
         'user_followers': user_followers,
-        'user_following': user_following
+        'user_following': user_following,
+        'is_own_profile': is_own_profile
     }
 
     return render(request, 'profile.html', context)

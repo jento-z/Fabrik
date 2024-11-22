@@ -114,6 +114,9 @@ def index(request):
     
     feed_list = list(chain(*feed))
 
+    # Fetch all outfits created by the current user for the "Post Outfit" dropdown
+    outfits = Outfit.objects.filter(user=request.user)
+
     all_users = User.objects.all()
     user_following_all = []
 
@@ -142,7 +145,34 @@ def index(request):
     # TODO: Need to only show following profile posts
     # posts = Post.objects.all()
 
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4]})
+    return render(request, 'index.html', 
+                  {'user_profile': user_profile, 
+                   'posts':feed_list, 
+                   'suggestions_username_profile_list': suggestions_username_profile_list[:4], 'outfits': outfits
+                   })
+
+@login_required
+def post_outfit(request):
+    if request.method == 'POST':
+        outfit_id = request.POST.get('outfit_id')
+        if outfit_id:
+            try:
+                # Fetch the outfit
+                outfit = Outfit.objects.get(id=outfit_id, user=request.user)
+                
+                # Create a new Post for the outfit
+                Post.objects.create(
+                    user=request.user,
+                    image=outfit.top.image if outfit.top else None,  # You can customize which image to show
+                    caption=f"Check out my outfit: {outfit.hat.item_name if outfit.hat else ''}, {outfit.top.item_name if outfit.top else ''}, {outfit.bottom.item_name if outfit.bottom else ''}"
+                )
+                messages.success(request, "Outfit posted successfully!")
+            except Outfit.DoesNotExist:
+                messages.error(request, "Invalid outfit selected.")
+        else:
+            messages.error(request, "Please select an outfit.")
+    
+    return redirect('index')
 
 @login_required(login_url='signin')
 def like_post(request):

@@ -244,7 +244,7 @@
                                     <img src="" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                 </div> -->
                             </a>
-                            <span class="block capitalize font-semibold "> <a href="#">@{{post.user}}</a> </span>
+                            <span class="block capitalize font-semibold "> <a href="/profile/{{post.user}}">@{{post.user}}</a> </span>
                         </div>
                         <div>
                         <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>
@@ -333,7 +333,7 @@
                         </div> -->
 
                         <p>
-                            <a href="#"><i>{{post.user}} </i>- {{post.caption}}</a>
+                            <a href="/profile/{{post.user}}"><i>{{post.user}} </i>- {{post.caption}}</a>
                         </p>
 
                         <!-- <div class="border-t pt-4 space-y-4 ">
@@ -380,25 +380,31 @@
                 <div class="bg-white  shadow-md rounded-md overflow-hidden">
 
                     <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
-                        <h2 class="font-semibold text-lg">Users You Can Follow</h2>
-                        <a href="#"> Refresh</a>
+                        <h2 class="font-semibold text-lg">Follow Suggestions</h2>
+                        <!-- <a href="#"> Refresh</a> -->
                     </div>
                     
                     <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 ">
+
+                        {% for suggestion in suggestions_username_profile_list %}
                         <div class="flex items-center justify-between py-3">
                             <div class="flex flex-1 items-center space-x-4">
-                                <a href="profile">
-                                    <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="bg-gray-200 rounded-full w-10 h-10">
+                                <a href="profile/{{suggestion.user}}">
+                                    <img src="{{suggestion.profileimg.url}}" class="bg-gray-200 rounded-full w-10 h-10">
                                 </a>
                                 <div class="flex flex-col">
-                                    <span class="block capitalize font-semibold"> tomi_ml </span>
-                                    <span class="block capitalize text-sm"> 320k followers </span>
+                                    <span href="/profile/{{suggestion.user}}" class="block capitalize font-semibold"> {{suggestion.user}} </span>
+                                    <span href="/profile/{{suggestion.user}}" class="block capitalize text-sm"> {{suggestion.bio}} </span>
                                 </div>
                             </div>
                             
-                            <a href="#" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "> Follow </a>
+                            <a href="/profile/{{suggestion.user}}" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "> View User </a>
+                            {% csrf_token %}
+                            <!-- <a data-ripple=""><button type="submit" class="settings-or-follow">{{button_text}}</button></a> -->
                         </div>
-                        <div class="flex items-center justify-between py-3">
+                        {% endfor%}
+
+                        <!-- <div class="flex items-center justify-between py-3">
                             <div class="flex flex-1 items-center space-x-4">
                                 <a href="profile">
                                     <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" class="bg-gray-200 rounded-full w-10 h-10">
@@ -433,7 +439,7 @@
                                 </div>
                             </div>
                             
-                            <a href="#" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "> Follow </a>
+                            <a href="#" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "> Follow </a> -->
                         </div>
 
                     </div>

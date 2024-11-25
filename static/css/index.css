@@ -1,61 +1,748 @@
-
-html, body{
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
+    color: #333;
 }
 
-.row{
+/* Container */
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Topbar */
+.topbar {
     display: flex;
-    justify-content: start;
-    align-items: center;
-}
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
 
-.topbar{
-    text-align: center;
+    justify-content: space-between; /* Aligns logo and topbar contents horizontally */
+    align-items: center; /* Aligns items vertically in the center */
     background-color: #3eac8bff;
-    overflow: hidden;
+    color: #f6f4ebff;
     font-family: Rozha One, serif;
-    font-size: 3.5rem; 
+
 }
 
-.logo a{
+
+.sidebar{
     float: left;
+    top: 40px;
+    padding-top: 40px;
+    position: fixed;
+    z-index: 99;
+    width: 260px; /* Set width of dropdown */
+    max-width: 50%; /* Prevent overflow */
+    height: 100vh;
+    background-color: rgb(8, 15, 9);
+    box-sizing: border-box;
+    font-size: 22px;
+
+    overflow: hidden;
+    font-family: Rozha One, serif;  
+
+}
+
+.post-feed {
+    margin-top: 60px; /* Matches the height of the topbar */
+    margin-left: 320px; /* Matches the width of the sidebar */
+    padding: 20px; /* Optional padding for spacing inside the feed */
+    background-color: #f6f4ebff; /* Optional background color */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+    font-family: 'Rozha One', serif;
+    overflow-y: auto; /* Ensures scrollable content if it exceeds viewport height */
+}
+
+.sidebar li a{
     text-decoration: none;
-    color:  #f6f4ebff;
+    list-style: none;
+    color: #1e5a48;
+
+}
+
+.sidebar li a:hover{
+    color:rgb(74, 145, 124);
+
+}
+
+.sidebar li{
+    list-style: none;
+
+}
+
+/* Logo */
+.logo a {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #f6f4ebff;
     padding-left: 20px;
-    font-weight: bold;
+    padding-right: 10px;
 }
 
-.topbar-contents a{
-    float: right;
-    padding: 20px 26px;
-    font-size: 26px;
-    text-decoration: none;
-    color:  rgb(37, 37, 37);
-}
-
-.topbar-contents{
-    float: right;
-    padding: 20px 26px;
-    font-size: 26px;
-    text-decoration: none;
-    color:  rgb(37, 37, 37);
-}
-
-.header-search{
-    float: center;
-
-}
-
-.topbar-button{
-    background: pink;
-    color: white;
+/* Topbar Contents */
+.topbar-contents {
     display: flex;
+    align-items: center; /* Aligns the search form and logout link in the same row */
+    gap: 20px; /* Adds space between the form and logout link */
+}
+
+/* Search Form */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adds space between the input and the button */
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    width: 200px;
+}
+
+.search-input::placeholder {
+    color: #aaa;
+}
+
+.search-button {
+    background-color: #1e5a48;
+    color: rgb(8, 15, 9);
     font-weight: bold;
+    border: 1px solid #1e5a48;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button:hover {
+    background-color: rgb(74, 145, 124);
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(74, 145, 124);
+}
+
+.search-button i {
+    margin-right: 5px; /* Adds space between the icon and text */
+}
+
+/* User Menu */
+.user-menu {
+    display: flex;
     align-items: center;
 }
 
-.topbar-button:hover{
-    background: palevioletred;
+/* Common Button Styles */
+.btn-upload {
+    background-color: #1e5a48; 
+    color: #fff;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 4px;
+    max-height: 40px;
+    text-decoration: none;
+    margin-right: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-upload:hover {
+    background-color: rgb(74, 145, 124);
+    color: #f6f4eb; /* Lighter text on hover */
+}
+
+.btn-upload ion-icon {
+    margin-right: 5px; /* Adds space between the icon and text */
+    opacity: 0.9;
+}
+
+/* Optional: Dropdown Styles (if needed) */
+.header-dropdown {
+    position: relative;
+}
+
+.uk-dropdown {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    /* display: none; */
+}
+
+.uk-dropdown a {
+    color: #333;
+    text-decoration: none;
+}
+
+.create-outfit{
+    font-size: 20px;
+    padding-left: 0px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.upload-clothes{
+    font-size: 20px;
+}
+
+/* Dropdown Container */
+.header-dropdown {
+    position: absolute;
+    z-index: 1000;
+    width: 300px; /* Set width of dropdown */
+    max-width: 100%; /* Prevent overflow */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+/* Ensure dropdown is aligned correctly */
+.uk-dropdown {
+    display: block;
+    position: relative;
+}
+
+/* Center content inside the dropdown */
+.choose-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Make sure dropdown items are spaced well */
+.uk-dropdown form {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.uk-dropdown .button {
+    margin-top: 20px;
+}
+
+/* Ensure profile container is positioned correctly within the topbar */
+.profile-container {
+    position: relative;  /* Ensure the dropdown is positioned relative to the profile image */
+}
+
+/* Style the profile image to be circular */
+.header-avatar {
+    width: 45px; /* Adjust size as needed */
+    height: 45px;
+    border-radius: 50%;  /* Make the image circular */
+    object-fit: cover;  /* Ensure the image fits well within the circle */
+    border: none;  /* Optional: adds a white border around the profile image */
+    
+}
+
+/* Styling for the profile dropdown */
+.header-dropdown {
+    display: none;
+    position: absolute;
+    top: 45px;  /* Adjust to position the dropdown below the avatar */
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;  /* Set width of the dropdown */
+    z-index: 1000;  /* Ensure the dropdown is above other content */
+}
+
+/* Show the dropdown when it's open */
+.profile-dropdown.uk-open {
+    display: block;
+}
+
+/* Additional styles for the dropdown list */
+.header-dropdown ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+}
+
+.header-dropdown li {
+    padding: 10px 20px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.header-dropdown li a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+.header-dropdown li a:hover {
+    color: #3eac8bff;
+}
+
+.bg-white {
+    background-color: #f6f4ebff;
+}
+
+.shadow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-md {
+    border-radius: 8px;
+}
+
+.px-4, .py-3 {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 12px;
+    /* padding-bottom: 12px; */
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.text-gray-900 {
+    color: #1a202c;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.hover\:bg-gray-200:hover {
+    background-color: #f7fafc;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.icon-feather-more-horizontal {
+    cursor: pointer;
+}
+
+.bg-gray-100 {
+    background-color: #f7fafc;
+}
+
+.profile_dropdown {
+    position: absolute;
+    top: 50px;
+    right: 16px;
+    width: 200px;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile_dropdown ul {
+    padding: 0;
+    list-style: none;
+}
+
+.profile_dropdown ul li {
+    padding: 8px 16px;
+}
+
+.profile_dropdown ul li a {
+    text-decoration: none;
+    color: #4a5568;
+}
+
+.profile_dropdown ul li a:hover {
+    color: #2d3748;
+    background-color: #edf2f7;
+}
+
+/* Post Body Styling */
+.py-3 {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.svg-inline--fa {
+    width: 25px;
+    height: 25px;
+}
+
+.like-button, .comment-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+/* Right Sidebar */
+.lg\:w-5\/12 {
+    width: 40%;
+}
+
+.bg-gray-50 {
+    background-color: #f9fafb;
+}
+
+.border-b {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.divide-y {
+    border-top: 1px solid #e2e8f0;
+}
+
+.rounded-full {
+    border-radius: 50%;
+}
+
+.text-white {
+    color: white;
+}
+
+.hover\:text-white:hover {
+    color: white;
+}
+
+/* Responsive Layout for Small Screens */
+@media (max-width: 1024px) {
+    .lg\:w-5\/12 {
+        width: 100%;
+    }
+
+    .flex {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.post-user a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 20;
+}
+
+.post-headers{
+    padding: 30px;
+
+}
+
+.post-outfit{
+    font-size: 20px;
+    font-family: Rozha One, serif;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+
+}
+
+.post-dropdown {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    visibility: none;
+}
+
+.post-outfit2{
+    padding-bottom: 20px;
+}
+
+/* Right Sidebar Container */
+.right-sidebar {
+    right:0;
+    top: 40px;
+    padding-top: 40px;
+    position: fixed;
+    z-index: 99;
+    width: 260px; /* Set width of dropdown */
+    max-width: 50%; /* Prevent overflow */
+    height: 100vh;
+    background-color: #f6f4ebff;
+    box-sizing: border-box;
+    font-size: 22px;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(22, 22, 22);
+    margin: 20px;
+
+}
+
+@media (max-width: 1000px) {
+    .right-sidebar {
+        display: none;
+    }
+}
+
+/* Sidebar Box */
+.right-sidebar .sidebar-box {
+    background-color: #fff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden;
+}
+
+/* Sidebar Header */
+.right-sidebar .sidebar-header {
+    font-family: Rozha One, serif; 
+    background-color: #f9fafb; /* Light gray */
+    border-bottom: 1px solid #f3f4f6; /* Subtle border */
+    padding: 1rem 1.5rem; /* Even spacing */
+    font-weight: 600; /* Bold font */
+    font-size: 15px; /* Slightly larger text */
+    text-align: center;
+}
+
+/* Suggestion Item */
+.right-sidebar .suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem; /* Compact spacing */
+    border-bottom: 1px solid #e5e7eb; /* Divider */
+    font-size: 15px;
+}
+
+.right-sidebar .suggestion-item a{
+    text-decoration: none;
+    color: rgb(22, 22, 22);
+}
+
+.right-sidebar .suggestion-item:last-child {
+    border-bottom: none; /* Remove border for last item */
+}
+
+/* Profile Image */
+.right-sidebar .profile-img {
+    width: 2.5rem; /* Fixed size */
+    height: 2.5rem;
+    border-radius: 50%; /* Circular */
+    background-color: #fff; /* Placeholder color */
+    padding: 10px;
+}
+
+/* View User Button */
+.right-sidebar .view-user-btn {
+    color: #f6f4ebff;
+    border: 1px solid #e5e7eb; /* Subtle border */
+    padding: 0.25rem 1rem; /* Compact */
+    border-radius: 9999px; /* Fully rounded */
+    font-family: Rozha One, serif;
+    transition: all 0.2s; /* Smooth hover effect */
+    background-color: #1e5a48;
+    font-weight: bold;
+}
+
+.right-sidebar .view-user-btn:hover {
+    background-color: rgb(74, 145, 124); /* Pink background */
+}
+
+
+/* General Reset and Styling for Custom Feed */
+.custom-feed {
+    font-family: 'Arial', sans-serif;
+    background-color: #f6f4ebff;
+    color: #333;
+}
+
+.custom-feed a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.custom-feed img {
+    max-width: 60%;
+    border-radius: 4px;
+}
+
+/* Post Feed Container */
+.custom-feed .post-feed {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Individual Post */
+.custom-feed .post-feed .col {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Post Header */
+.custom-feed .post-headers {
+    display: flex;
+    max-width: 60%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    padding-top: 30px;
+    border-bottom: 1px solid #f6f4ebff;
+    background-color: #f6f4ebff;
+}
+
+.custom-feed .post-user a {
+    font-weight: bold;
+    color: #3eac8bff;
+    font-size: 17px;
+}
+
+.custom-feed .post-headers .icon-feather-more-horizontal {
+    cursor: pointer;
+}
+
+.custom-feed .header-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-feed .header-dropdown ul li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.custom-feed .header-dropdown ul li a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Post Image */
+.custom-feed [post-image] img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Post Footer */
+.custom-feed .py-3 {
+    padding: 15px;
+}
+
+.custom-feed .space-y-3 > * + * {
+    margin-top: 15px;
+}
+
+.custom-feed .flex {
+    display: flex;
+}
+
+.custom-feed .space-x-4 > * + * {
+    margin-left: 15px;
+}
+
+.custom-feed .items-center {
+    align-items: center;
+}
+
+.custom-feed .p-2 {
+    padding: 10px;
+}
+
+.custom-feed .text-black {
+    color: #000;
+}
+
+.custom-feed .flex-1 {
+    flex: 1;
+}
+
+.custom-feed .lg\:font-bold {
+    font-weight: bold;
+}
+
+.custom-feed .hover\:bg-gray-200:hover {
+    background-color: #f0f0f0;
+}
+
+.custom-feed .rounded-full {
+    border-radius: 50%;
+}
+
+
+
+/* Responsiveness */
+@media (min-width: 768px) {
+    .custom-feed .post-feed {
+        flex-direction: row;
+        gap: 30px;
+    }
+
+    .custom-feed .post-feed .col {
+        flex: 3;
+    }
+
+    .custom-feed .right-sidebar {
+        flex: 1;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    min-width: 10rem;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.upload-dropdown {
+    display: none; /* Ensure it's hidden by default */
+    position: absolute;
+    top: 100%; /* Aligns dropdown below the button */
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    min-width: 200px; /* Ensure adequate width */
+}
+
+/* Show dropdown when toggled */
+.upload-dropdown.show {
+    display: block; /* Make visible */
 }

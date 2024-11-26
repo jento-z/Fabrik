@@ -101,6 +101,19 @@
 				<div class="items">
 					Outfits
 				</div>
+				<ul class="row photos">
+					{% for post in user_posts %}
+					<li>
+						<a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+							<img src="{{post.image.url}}" style="height: 150px; width: 150px;" class="post" alt=""></a>
+							<!-- <div uk-lightbox>
+								<a href="{{post.image.url}}">  
+									<img src="{{post.image.url}}" alt="">
+								</a>
+							</div> -->
+					</li>
+					{% endfor %}
+				</ul>
             </div>
 
         </div>

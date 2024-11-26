@@ -13,6 +13,7 @@ import random
 from rembg import remove
 from PIL import Image
 from io import BytesIO
+from .create_custom_image_grid import create_custom_image_grid
 
 @login_required
 def outfit_list(request):
@@ -54,6 +55,7 @@ def create_outfit(request):
         bottom_id = request.POST.get('bottom')
         shoes_id = request.POST.get('shoes')
         accessories_id = request.POST.get('accessories')
+        name = request.POST.get('outfit_name')
         
         # Retrieve ClosetItem instances based on the selected IDs, or None if not selected
         hat = ClosetItem.objects.get(id=hat_id) if hat_id else None
@@ -65,6 +67,7 @@ def create_outfit(request):
         # Create the Outfit instance
         outfit = Outfit.objects.create(
             user=request.user,
+            name=name,
             hat=hat,
             top=top,
             bottom=bottom,
@@ -155,17 +158,57 @@ def index(request):
 def post_outfit(request):
     if request.method == 'POST':
         outfit_id = request.POST.get('outfit_id')
+        caption = request.POST.get('post_caption')
         if outfit_id:
             try:
                 # Fetch the outfit
                 outfit = Outfit.objects.get(id=outfit_id, user=request.user)
                 
-                # Create a new Post for the outfit
-                Post.objects.create(
-                    user=request.user,
-                    image=outfit.top.image if outfit.top else None,  # You can customize which image to show
-                    caption=f"Check out my outfit: {outfit.hat.item_name if outfit.hat else ''}, {outfit.top.item_name if outfit.top else ''}, {outfit.bottom.item_name if outfit.bottom else ''}"
+                # Prepare image files for the grid
+                image_files_column_1 = []
+                image_files_column_2 = []
+
+                # Add ImageField file objects to the respective columns
+                if outfit.top:
+                    image_files_column_1.append(outfit.top.image.file)
+                if outfit.bottom:
+                    image_files_column_1.append(outfit.bottom.image.file)
+                if outfit.hat:
+                    image_files_column_2.append(outfit.hat.image.file)
+                if outfit.accessories:
+                    image_files_column_2.append(outfit.accessories.image.file)
+                if outfit.shoes:
+                    image_files_column_2.append(outfit.shoes.image.file)
+
+                # Define target sizes for the grid
+                target_size_col_1 = (600, 600)
+                target_size_col_2 = (400, 400)
+
+                # Generate the grid image
+                grid_image_buffer = create_custom_image_grid(
+                    image_files_column_1,
+                    image_files_column_2,
+                    target_size_col_1,
+                    target_size_col_2
                 )
+
+                # Save the grid image to the Post's ImageField
+                unique_filename = f"outfit_grid_{outfit.user}_{outfit.name}_{outfit_id}.jpg"
+
+                if caption != "":
+                    # Create a new Post for the outfit
+                    Post.objects.create(
+                        user=request.user,
+                        image=ContentFile(grid_image_buffer.read(), name=unique_filename),  # Save the grid image as the post's image
+                        caption=caption
+                    )
+                else:
+                    # Create a new Post for the outfit
+                    Post.objects.create(
+                        user=request.user,
+                        image=ContentFile(grid_image_buffer.read(), name=unique_filename),  # Save the grid image as the post's image
+                        caption=f"Check out my outfit: {outfit.hat.item_name if outfit.hat else ''}, {outfit.top.item_name if outfit.top else ''}, {outfit.bottom.item_name if outfit.bottom else ''}"
+                    )
                 #messages.success(request, "Outfit posted successfully!")
             except Outfit.DoesNotExist:
                 #messages.error(request, "Invalid outfit selected.")
@@ -364,6 +407,7 @@ def profile(request, pk):
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
     user_clothing = ClosetItem.objects.filter(user=user_object).order_by('-date_added')
+    user_posts = Post.objects.filter(user=user_object.username).order_by('-created_at')
     user_clothing_length = len(user_clothing)
 
     follower = request.user.username
@@ -383,6 +427,7 @@ def profile(request, pk):
         'user_object': user_object,
         'user_profile': user_profile,
         'user_clothing': user_clothing,
+        'user_posts' : user_posts,
         'user_clothing_length': user_clothing_length,
         'button_text': button_text,
         'user_followers': user_followers,

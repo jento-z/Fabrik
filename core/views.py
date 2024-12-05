@@ -419,6 +419,9 @@ def profile(request, pk):
     else:
         button_text = 'Follow'
 
+    user_followers_list = FollowersCount.objects.filter(user=pk)
+    user_following_list = FollowersCount.objects.filter(follower=pk)
+
     user_followers = len(FollowersCount.objects.filter(user=pk))
     user_following = len(FollowersCount.objects.filter(follower=pk))
 
@@ -434,7 +437,9 @@ def profile(request, pk):
         'button_text': button_text,
         'user_followers': user_followers,
         'user_following': user_following,
-        'is_own_profile': is_own_profile
+        'is_own_profile': is_own_profile,
+        'user_followers_list': user_followers_list,
+        'user_following_list': user_following_list,
     }
 
     return render(request, 'profile.html', context)

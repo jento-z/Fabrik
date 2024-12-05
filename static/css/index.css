@@ -353,6 +353,7 @@ body {
 
 .font-bold {
     font-weight: bold;
+    
 }
 
 .text-2xl {
@@ -574,6 +575,7 @@ body {
     font-size: 15px; /* Slightly larger text */
     text-align: center;
     margin-top: 24px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     /* background-color: #1e5a48; */
 }
 

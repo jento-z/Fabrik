@@ -263,7 +263,7 @@
                         <!-- Post Header -->
                         <div class="post-headers">
                             <div class="post-user">
-                                <a href="profile/{{post.user}}" class="font-bold text-lg" style="font-size: 300">@{{post.user}}</a>
+                                <a href="profile/{{post.user}}" class="font-bold text-lg" style="font-size: 300;">@{{post.user}}</a>
                             </div>
                             {% if post.user == user.username %}
                             <div>
@@ -339,7 +339,7 @@
                                     <img src="{{suggestion.profileimg.url}}" class="profile-img">
                                 </a>
                                 <div class="ml-4">
-                                    <a href="/profile/{{suggestion.user}}" class="block font-semibold">{{suggestion.user}}</a>
+                                    <a href="/profile/{{suggestion.user}}" class="block font-semibold" style="color:rgba(0, 0, 0, 0.8);">{{suggestion.user}}</a>
                                     <!-- <span class="block text-sm">{{suggestion.bio}}</span> -->
                                 </div>
                             </div>

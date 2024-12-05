@@ -20,8 +20,8 @@
 
 
 <body>
-<div class="container">
-   <div class="main">
+<div class="container" >
+   <div class="main" >
 
 
        <header class="row topbar">
@@ -56,10 +56,10 @@
                    <!-- Dropdown Menu for Profile -->
                    <div uk-dropdown="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
                        <ul>
-                           <li><a href="profile/{{user_profile.user.username}}">Profile</a></li>
-                           <li><a href="closet/{{user_profile.user.username}}">Closet</a></li>
-                           <li><a href="settings">Settings</a></li>
-                           <li><a href="logout">Log Out</a></li>
+                           <li><a href="/profile/{{user_profile.user.username}}">Profile</a></li>
+                           <li><a href="/closet/{{user_profile.user.username}}">Closet</a></li>
+                           <li><a href="/settings">Settings</a></li>
+                           <li><a href="/logout">Log Out</a></li>
                        </ul>
                    </div>
                </div>
@@ -69,10 +69,10 @@
        </header>
 
 
-       <div class="below-header">
+       <div class="below-header" style="background-color: #f6f4ebff">
 
 
-           <div class="profile-row profile-section">
+           <div class="profile-row profile-section" style="background-color: #f6f4ebff">
                <div class="col-md-6">
                    <img src="{{user_profile.profileimg.url}}" class="profile-img" width="150">
                </div>
@@ -192,14 +192,25 @@
            </div>
 
 
-           <div class="row content-section">
+           <div class="row content-section" >
                <div class="timeline">
                    {% if is_own_profile %}
                        <div class="items">
                            Clothes  ({{user_clothing_length}})
                        </div>
                        <div>
-                    <div class="categories">  Tops</div>
+                        {% for clothing in user_clothing %}
+                               <a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                   <img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
+                                   <!-- <div uk-lightbox>
+                                       <a href="{{post.image.url}}"> 
+                                           <img src="{{post.image.url}}" alt="">
+                                       </a>
+                                   </div> -->
+                               </a>
+                          
+                        {% endfor %}
+                    <!-- <div class="categories">  Tops</div>
                        <ul class="row photos">
                            {% for clothing in tops %}
                            <li>
@@ -277,7 +288,7 @@
                                </a>
                            </li>
                            {% endfor %}
-                       </ul>
+                       </ul> -->
                        
                     </div>
                    {% endif %}

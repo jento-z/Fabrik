@@ -21,7 +21,7 @@
 
 <body>
  <div class="container">
-    <div class="main">
+    <div class="main" >
 
         <div class="topbar">
 			<div class="col logo">
@@ -33,13 +33,13 @@
 			</div>
         </div>
 
-        <div class="row profile-section">
+        <div class="row profile-section" style="background-color: #f6f4ebff">
 			<div class="col-md-6">
 				<img src="{{user_profile.profileimg.url}}" class="profile-img" width="150">
 			</div>
 			<div class="col-md-6">
 				<div class="closet">
-					<h3>@{{user_profile.user.username}}'s Closet
+					<h3 style="color: #000">@{{user_profile.user.username}}'s Profile
 						<form action="/follow" method="POST">
 							{% csrf_token %}
 							<div class="profile-info">
@@ -49,19 +49,19 @@
 								{% if user_object.username != user.username %}
 								<a data-ripple=""><button type="submit" class="settings-or-follow">{{button_text}}</button></a>
 								{% else %}
-								<a href="/settings" data-ripple=""><button type="submit" class="settings-or-follow" >Account Settings</button></a>
+								<a href="/settings" data-ripple=""><button class="settings-or-follow" >Account Settings</button></a>
 								<!-- <a href="/settings" data-ripple="">Account Settings</a> -->
 								{% endif %}
 							</div>
 						</form>
-						<div class="bio">{{user_profile.bio}}</div>
-						<div class="location" style="font-size: 1rem; color: white; margin: 10px;">Location: {{user_profile.location}}</div>
+						<div class="bio" style="color: rgb(2, 88, 58); font-family: serif; font-size: 25px;">{{user_profile.bio}}</div>
+						<div class="location" style="font-size: 1rem; color: black; margin: 10px;">Location: {{user_profile.location}}</div>
 					</h3>
 				</div>
 			</div>
 		</div>
 
-		<div class="row following-info">
+		<div class="row following-info" style="background-color: rgb(4, 81, 54)">
 			<form action="/follow" method="POST">
 				{% csrf_token %}
 				<div class="profile-info">
@@ -80,13 +80,29 @@
 					{% endif %}
 					
 					<span class="info-bar-items"><b>{{user_following}} following</b></span>
+					<div uk-dropdown="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
+					<!-- {% for follower in user_following_list %}
+                        <div class="suggestion-item">
+                            <div class="flex items-center">
+                                <a href="profile/{{follower.user}}">
+                                    <img src="{{follower.profileimg.url}}" class="profile-img">
+                                </a>
+                                <div class="ml-4">
+                                    <a href="/profile/{{suggestion.user}}" class="block font-semibold" style="color:rgba(0, 0, 0, 0.8);">{{suggestion.user}}</a>
+                                    <span class="block text-sm">{{follower.bio}}</span>
+                                </div>
+                            </div>
+                            <a href="/profile/{{suggestion.user}}" class="view-user-btn">View</a>
+                        </div>
+                    {% endfor %} -->
+					</div>
 				</div>
 			</form>
 		</div>
 
-		<div class="row content-section">
+		<div class="row content-section" style="background-color: #f6f4ebff; color: #f6f4ebff">
             <div class="timeline">
-				<div class="items">
+				<div class="items" style="color: black">
 					Outfits
 				</div>
 				<ul class="row photos">

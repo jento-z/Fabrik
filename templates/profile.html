@@ -33,7 +33,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="closet">
-					<h3>@{{user_profile.user.username}}'s Closet
+					<h3>@{{user_profile.user.username}}'s Profile
 						<form action="/follow" method="POST">
 							{% csrf_token %}
 							<div class="profile-info">
@@ -80,7 +80,7 @@
 
 		<div class="row content-section">
             <div class="timeline">
-				{% if is_own_profile %}
+				<!-- {% if is_own_profile %}
 					<div class="items">
 						Clothes
 					</div>
@@ -89,15 +89,15 @@
 						<li>
 							<a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
 								<img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
-								<!-- <div uk-lightbox>
+								<div uk-lightbox>
 									<a href="{{post.image.url}}">  
 										<img src="{{post.image.url}}" alt="">
 									</a>
-								</div> -->
+								</div>
 						</li>
 						{% endfor %}
 					</ul>
-				{% endif %}
+				{% endif %} -->
 				<div class="items">
 					Outfits
 				</div>
@@ -106,11 +106,6 @@
 					<li>
 						<a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
 							<img src="{{post.image.url}}" style="height: 150px; width: 150px;" class="post" alt=""></a>
-							<!-- <div uk-lightbox>
-								<a href="{{post.image.url}}">  
-									<img src="{{post.image.url}}" alt="">
-								</a>
-							</div> -->
 					</li>
 					{% endfor %}
 				</ul>

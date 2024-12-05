@@ -7,13 +7,131 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Tiny5&family=VT323&display=swap" rel="stylesheet">
 
+
+
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
 	<link rel="stylesheet" href="{% static 'css/index.css' %}">
     <title>Home</title>
+    <style>
+        /* Add space between the posts and the suggestions */
+        .post-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            padding: 16px;
+            /* margin-right: 24px; */
+            max-width: 700px;
+            overflow: hidden;
+        }
+
+        .posts-wrapper {
+            margin-top:50px;
+            /* margin-right: 200px; */
+        }
+
+        /* Improve username styling */
+        .post-user {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            padding: 8px 12px;
+            background-color: #f5f5f5;
+            border-radius: 20px;
+            text-decoration: none;
+        }
+
+        .post-user:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Style the image for posts */
+        .post-image img {
+            display: block; /* Removes any inline spacing issues */
+            width: 100%; /* Ensures the image spans the entire width of the container */
+            /* height: auto; */
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        /* Additional spacing for right sidebar */
+        .right-sidebar {
+            margin-left: 24px;
+        }
+
+        .sidebar-box {
+            padding: 16px;
+            border-radius: 8px;
+            background-color:rgb(74, 145, 124);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+
+        .suggestion-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .suggestion-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .col.sidebar {
+            background-color: #f6f4ebff; /* Set background color to the desired shade */
+        }
+
+        .topbar {
+            background-color: #3eac8bff; /* Light color to match the sidebar */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a sleek effect */
+            padding: 10px 20px; /* Adjust padding for spacing */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Adjusts layout of elements */
+        }
+
+        .logo a {
+            font-size: 60px; /* Larger, bolder logo */
+            font-family: 'Rozha One', serif; /* Custom font */
+            font-weight: 500;
+            color: #f6f4ebff; /* Dark color for contrast */
+            text-decoration: none;
+        }
+
+        .topbar-contents {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Adds space between items */
+        }
+
+        .header-avatar {
+            border-radius: 50%; /* Makes the profile image circular */
+            border: 2px solid #ddd; /* Optional: Adds a subtle border */
+            width: 40px;
+            height: 40px;
+        }
+
+        .search-button {
+            color: #ffffff;
+        }
+
+        .view-user-btn {
+            color: #ffffff;
+        }
+
+
+    </style>
 </head>
+
+
 
 <body>
     <div class="container">
@@ -45,7 +163,7 @@
                     </a>
 
                     <!-- Dropdown Menu for Profile -->
-                    <div uk-dropdown="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
+                    <div uk-drop="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
                         <ul>
                             <li><a href="profile/{{user_profile.user.username}}">Profile</a></li>
                             <li><a href="profile/{{user_profile.user.username}}">Closet</a></li>
@@ -61,13 +179,12 @@
 
         <div class="row">
 
-            <div class="col sidebar">
+            <div class="col sidebar" background=#f6f4ebff>
                 <ul>
                     <!-- Create Outfit Button -->
                     <div class="create-outfit">
                         <a href="{% url 'create-outfit' %}" class="btn-upload">
-                            <ion-icon name="add-circle" class=" -mb-1 mr-1 opacity-90 text-xl"></ion-icon> Create Outfit
-                            
+                            <ion-icon name="add-circle" class=" -mb-1 mr-1 opacity-90 text-xl"></ion-icon> Create Outfit                            
                         </a>
                     </div>  
 
@@ -159,25 +276,6 @@
                                 </form>
                             </div>
 
-                            <div class="uk-flex uk-flex-column choose-upload" hidden>
-                                <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
-                                        <path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <p class="my-3 leading-6"> Import videos from YouTube <br> Copy / Paste your video link here </p>
-                                <form class="uk-grid-small" uk-grid>
-                                    <div class="uk-width-expand">
-                                        <input type="text" class="uk-input uk-form-small  bg-gray-200 " style="box-shadow:none" placeholder="Paste link">
-                                    </div>
-                                    <div class="uk-width-auto"> <button type="submit" class="button soft-warning -ml-2">
-                                            Import </button> </div>
-                                </form>
-                                <a href="#" class="uk-text-muted mt-3 uk-link"
-                                    uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
-                                    Or Upload Video </a>
-                            </div>
-
                         </div>
                         <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
                             Your Image size Must be Maxmium 999MB
@@ -189,69 +287,71 @@
 
             <div class="col custom-feed post-feed">
                 <!-- post 1-->
-                {% for post in posts reversed %}
-                <div class="col">
-
-                    <!-- post header-->
-                    <div class="post-headers">
-                        <div class="post-user">
-                            <a href="profile/{{post.user}}">@{{post.user}}</a>
-                        </div>
-                        <div>
-                        <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>
-                        <div uk-dropdown="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
-                            <ul>
-                                <li><a href="#">Share</a></li>
-                                <li><a href="#">Edit</a></li>
-                                <li><a href="#">Favorite</a></li>
-                                <li>
-                                    <a href="/delete-post?post_id={{post.id}}" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md ">
-                                    <i class="uil-trash-alt mr-1"></i>  Delete
-                                    </a> 
-                                </li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div post-image>
-                        <a href="{{post.image.url}}">  
-                            <img src="{{post.image.url}}" alt="">
-                        </a>
-                    </div>
-                    
-
-                    <div class="py-3 px-4 space-y-3"> 
-                        
-                        <div class="flex space-x-4 lg:font-bold">
-                            <a href="/like-post?post_id={{post.id}}" class="flex items-center space-x-2">
-                                <div class="p-2 rounded-full text-black">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25" class="">
-                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                                    </svg>
-                                    {% if post.no_of_likes == 0 %}
-                                    <p>No likes</p>
-                                    {% else %}
-                                    <p>Liked by {{post.no_of_likes}}</p>
-                                    {% endif %}
+                <div class="posts-wrapper">
+                {% for post in posts reversed %} 
+                <div class="post-container">
+                    <div class="col" >
+                        <!-- Post Header -->
+                        <div class="post-headers">
+                            <div class="post-user">
+                                <a href="profile/{{post.user}}" class="font-bold text-lg">@{{post.user}}</a>
+                            </div>
+                            {% if post.user == user.username %}
+                            <div>
+                                <a href="#" class="text-gray-500">
+                                    <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition"></i>
+                                </a>
+                                <div uk-dropdown="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
+                                    <ul>
+                                        <li><a href="#">Edit Caption</a></li>
+                                        <li>
+                                            <a href="/delete-post?post_id={{post.id}}" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md">
+                                                <i class="uil-trash-alt mr-1"></i> Delete
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                
-                            </a>
-                        
-                            <a href="#" class="flex items-center space-x-2 flex-1 justify-end">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="25" height="25" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/></g></svg>
-                                
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Post Image -->
+                        <div class="post-image">
+                            <a href="{{post.image.url}}">
+                                <img src="{{post.image.url}}" alt="Post Image" class="rounded-lg w-full">
                             </a>
                         </div>
-                        <p>
-                            <a href="#"><i>{{post.user}} </i>- {{post.caption}}</a>
-                        </p>
 
+                        <!-- Post Actions and Caption -->
+                        <div class="py-3 space-y-3">
+                            <div class="flex space-x-4 lg:font-bold">
+                                <a href="/like-post?post_id={{post.id}}" class="flex items-center space-x-2">
+                                    <div class="p-2 rounded-full text-black">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25">
+                                            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                                        </svg>
+                                        {% if post.no_of_likes == 0 %}
+                                        <p>No likes</p>
+                                        {% else %}
+                                        <p>Liked by {{post.no_of_likes}}</p>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                                <a href="#" class="flex items-center space-x-2 flex-1 justify-end">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="25" height="25">
+                                        <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z" />
+                                    </svg>
+                                </a>
+                            </div>
+                            <p>
+                                <a href="#" class="font-semibold">{{post.user}}</a>: {{post.caption}}
+                            </p>
+                        </div>
                     </div>
-
                 </div>
                 {% endfor %}
-
+                
+                </div>
             </div>  
             
             <div class="col right-sidebar">
@@ -259,7 +359,7 @@
                 <div class="sidebar-box">
             
                     <div class="sidebar-header">
-                        <h2>Suggested For You</h2>
+                        <h2>Suggested Users</h2>
                     </div>
             
                     <div>
@@ -310,6 +410,12 @@
                 }
             }
             </script>
+
+        <script>
+            function closePost(postElement) {
+                postElement.style.display = "none"; // Hide the clicked post
+            }
+        </script>
 </body>
 </html>
 </html>

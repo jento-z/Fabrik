@@ -1,0 +1,268 @@
+
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Tiny5&family=VT323&display=swap" rel="stylesheet">
+
+
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+   <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+   <link rel="stylesheet" href="{% static 'css/closet.css' %}">
+   <title>Closet - {{user_profile.user.username}}</title>
+</head>
+
+
+<body>
+<div class="container">
+   <div class="main">
+
+
+       <header class="row topbar">
+           <div class="logo">
+               <a href="/">fabrik</a>
+           </div>
+           <div class="topbar-contents">
+               <form action="/search" method="POST" class="search-form">
+                   {% csrf_token %}
+                   <input
+                       type="text"
+                       name="username"
+                       placeholder="Search for username..."
+                       class="search-input"
+                   >
+                   <button type="submit" class="search-button">
+                       <i class="search-icon"></i> Search
+                   </button>
+               </form>
+
+
+               <!-- Profile Avatar with Dropdown -->
+               <div class="profile-container">
+                   <!-- Profile Image (clickable) -->
+                   <a href="#" uk-toggle="target: .profile-dropdown" style="
+                       padding-right: 25px;
+                       padding-left: 15px">
+                       <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="Profile Image">
+                   </a>
+
+
+                   <!-- Dropdown Menu for Profile -->
+                   <div uk-dropdown="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
+                       <ul>
+                           <li><a href="profile/{{user_profile.user.username}}">Profile</a></li>
+                           <li><a href="closet/{{user_profile.user.username}}">Closet</a></li>
+                           <li><a href="settings">Settings</a></li>
+                           <li><a href="logout">Log Out</a></li>
+                       </ul>
+                   </div>
+               </div>
+
+
+           </div>
+       </header>
+
+
+       <div class="below-header">
+
+
+           <div class="profile-row profile-section">
+               <div class="col-md-6">
+                   <img src="{{user_profile.profileimg.url}}" class="profile-img" width="150">
+               </div>
+               <div class="col-md-6">
+                   <div class="closet">
+                       <h3>@{{user_profile.user.username}}'s Closet
+                           <ul>
+                               <!-- Create Outfit Button -->
+                               <div class="create-outfit">
+                                   <a href="{% url 'create-outfit' %}" class="btn-upload">
+                                       <ion-icon name="add-circle" class=" -mb-1 mr-1 opacity-90 text-xl"></ion-icon> Create Outfit
+                                      
+                                   </a>
+                               </div> 
+          
+                               <!-- New Post Button -->
+                               <div class="relative inline-block text-left post-outfit2">
+                                   <button class="btn-upload post-outfit" type="button" uk-toggle="target: .post-dropdown" >
+                                       <ion-icon name="add-circle" class="-mb-1 mr-1 opacity-90 text-xl"></ion-icon> New Post
+                                   </button>
+                  
+                                   <!-- <div class="dropdown-menu post-dropdown hidden">
+              
+                                   </div> -->
+          
+                                   <div uk-dropdown="pos: bottom-right;mode:click ; animation: uk-animation-slide-bottom-small" class="post-dropdown hidden">
+                                       <form action="{% url 'post-outfit' %}" method="POST">
+                                           {% csrf_token %}
+                                           <div class="py-1" role="none">
+                                               <p class ="">Select Outfit</p>
+                                               <select name="outfit_id" id="outfit" class="w-full border rounded px-4 py-2">
+                                                   <option value="">Choose Outfit</option>
+                                                   {% for outfit in outfits %}
+                                                       {% if outfit.name != "" %}
+                                                           <option value="{{ outfit.id }}">{{ outfit.name }}</option>
+                                                       {% else %}
+                                                           <option value="{{ outfit.id }}">{{ outfit.top.item_name }} / {{ outfit.bottom.item_name }}</option>
+                                                       {% endif %}
+                                                   {% empty %}
+                                                       <option disabled>No outfits available</option>
+                                                   {% endfor %}
+                                               </select>
+                                               <textarea class="button soft-warning small" name="post_caption" placeholder="The caption of your post..."></textarea>
+                                           </div>
+                                           <div class="py-1" role="none">
+                                               <button type="submit" class="">Post Outfit</button>
+                                           </div>
+                                       </form>
+                                   </div>
+                               </div>
+                                      
+                               <!-- Upload Clothes Button -->
+                               <div class="upload-clothes" uk-toggle="target: .upload-dropdown">
+                                   <a href="#" class="btn-upload">
+                                       <ion-icon name="add-circle" class=" -mb-1 mr-1 opacity-90 text-xl"></ion-icon> Upload Clothes
+                                   </a>
+                               </div>
+                               <!-- upload dropdown box -->
+          
+                               <div uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small" class="upload-dropdown">
+          
+                                   <!-- notification header -->
+                                   <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
+                                       <!-- <h4>Upload Clothes</h4> -->
+                                   </div>
+          
+                                   <!-- notification contents -->
+                                   <div class="flex justify-center flex-center text-center">
+          
+                                       <div class="flex flex-col choose-upload text-center">
+                                          
+                                           <div class="bg-gray-100 border-2 border-dashed flex flex-col h-24 items-center justify-center relative w-full rounded-lg  ">
+                                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
+                                                   <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
+                                                   <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
+                                               </svg>
+                                           </div>
+          
+                                           <!-- Uploading clothes -->
+                                           <form action="upload" method="POST" enctype="multipart/form-data">
+                                           {% csrf_token %}
+                                           <p class=""> Upload Clothes
+                                           </p>
+                                           <div>
+                                               <input type="file" name="image_upload">
+                                               <!-- <a href="#" class="button soft-warning small"> Choose file</a>  -->
+                                               <select name="category" id="category" class="w-full p-2 mb-4 border rounded" onchange="checkCategory()">
+                                                   <option value="">Select category</option>
+                                                   <option value="Tops">Top</option>
+                                                   <option value="Bottoms">Bottom</option>
+                                                   <option value="Shoes">Shoe</option>
+                                                   <option value="Hats">Hat</option>
+                                                   <option value="Accessories">Accessory</option>
+                                               </select>
+                                               <textarea class="button soft-warning small" name="item_name" placeholder="The name of your item..."></textarea>
+                                               <br>
+                                               {% if category.value != "Select" %}
+                                               <button id="uploadButton" class="button bg-pink-700" type="submit" style="display: none;">Upload</button>
+                                               {% endif %}
+                                           </div>
+                                           </form>
+                                       </div>
+          
+                                       <div class="uk-flex uk-flex-column choose-upload" hidden>
+                                           <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
+                                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
+                                                   <path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd" />
+                                               </svg>
+                                           </div>
+                                           <p class="my-3 leading-6"> Import videos from YouTube <br> Copy / Paste your video link here </p>
+                                           <form class="uk-grid-small" uk-grid>
+                                               <div class="uk-width-expand">
+                                                   <input type="text" class="uk-input uk-form-small  bg-gray-200 " style="box-shadow:none" placeholder="Paste link">
+                                               </div>
+                                               <div class="uk-width-auto"> <button type="submit" class="button soft-warning -ml-2">
+                                                       Import </button> </div>
+                                           </form>
+                                           <a href="#" class="uk-text-muted mt-3 uk-link"
+                                               uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
+                                               Or Upload Video </a>
+                                       </div>
+          
+                                   </div>
+                                   <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
+                                       Your Image size Must be Maxmium 999MB
+                                   </div>
+                               </div>
+          
+                           </ul>
+
+
+                       </h3>
+                   </div>
+               </div>
+           </div>
+
+
+           <div class="row content-section">
+               <div class="timeline">
+                   {% if is_own_profile %}
+                       <div class="items">
+                           Clothes
+                       </div>
+                       <ul class="row photos">
+                           {% for clothing in user_clothing %}
+                           <li>
+                               <a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                   <img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
+                                   <div uk-lightbox>
+                                       <a href="{{post.image.url}}"> 
+                                           <img src="{{post.image.url}}" alt="">
+                                       </a>
+                                   </div>
+                               </a>
+                           </li>
+                           {% endfor %}
+                       </ul>
+                   {% endif %}
+               </div>
+           </div>
+
+
+       </div>
+   </div>
+</div>
+   <!-- Scripts ================================================== -->
+   <script src="{% static 'assets/js/tippy.all.min.js' %}"></script> 
+   <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+   <script src="{% static 'assets/js/uikit.js' %}"></script>
+   <script src="{% static 'assets/js/simplebar.js' %}"></script>
+   <script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+
+
+   <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+
+
+   <!-- Script for checking if category field has been picked -->
+   <script>
+   function checkCategory() {
+       const category = document.getElementById("category").value;
+       const uploadButton = document.getElementById("uploadButton");
+              
+       if (category) {
+           uploadButton.style.display = "inline-block"; // Show button if a valid category is selected
+       } else {
+           uploadButton.style.display = "none"; // Hide button if "Select category" is chosen
+       }
+   }
+   </script>
+</body>
+</html>

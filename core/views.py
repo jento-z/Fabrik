@@ -438,6 +438,41 @@ def profile(request, pk):
     return render(request, 'profile.html', context)
 
 @login_required(login_url='signin')
+def closet(request, pk):
+    user_object = User.objects.get(username=pk)
+    user_profile = Profile.objects.get(user=user_object)
+    user_clothing = ClosetItem.objects.filter(user=user_object).order_by('-date_added')
+    user_posts = Post.objects.filter(user=user_object.username).order_by('-created_at')
+    user_clothing_length = len(user_clothing)
+
+    follower = request.user.username
+    user = pk
+
+    if FollowersCount.objects.filter(follower=follower, user=user).first():
+        button_text = 'Unfollow'
+    else:
+        button_text = 'Follow'
+
+    user_followers = len(FollowersCount.objects.filter(user=pk))
+    user_following = len(FollowersCount.objects.filter(follower=pk))
+
+    is_own_profile = (request.user == user_object)
+
+    context = {
+        'user_object': user_object,
+        'user_profile': user_profile,
+        'user_clothing': user_clothing,
+        'user_posts' : user_posts,
+        'user_clothing_length': user_clothing_length,
+        'button_text': button_text,
+        'user_followers': user_followers,
+        'user_following': user_following,
+        'is_own_profile': is_own_profile
+    }
+
+    return render(request, 'closet.html', context)
+
+@login_required(login_url='signin')
 def follow (request):
     if request.method == 'POST':
         follower = request.POST['follower']

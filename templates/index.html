@@ -18,14 +18,23 @@
     <style>
         /* Add space between the posts and the suggestions */
         .post-container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #f6f4ebff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.8);
             margin-bottom: 16px;
-            padding: 16px;
-            /* margin-right: 24px; */
-            max-width: 700px;
-            overflow: hidden;
+            padding-left: 80px; /* No extra space */
+            padding-right: 0px;
+            display: flex; /* Shrink container width to fit content */
+            overflow: hidden; /* Hide any overflowing content */
+            width: 60%;
+        }
+
+        .post-image img {
+            display: fixed; /* Remove inline spacing */
+            float: center;
+            width: 600px; /* Make the image fill its container */
+            height: auto; /* Preserve the image's aspect ratio */
+            border-radius: 8px; /* Apply rounded corners */
+            margin: 0; /* No extra margins */
         }
 
         .posts-wrapper {
@@ -40,22 +49,13 @@
             font-weight: bold;
             color: #333;
             padding: 8px 12px;
-            background-color: #f5f5f5;
+            background-color: #f6f4ebff;
             border-radius: 20px;
             text-decoration: none;
         }
 
         .post-user:hover {
-            background-color: #e0e0e0;
-        }
-
-        /* Style the image for posts */
-        .post-image img {
-            display: block; /* Removes any inline spacing issues */
-            width: 100%; /* Ensures the image spans the entire width of the container */
-            /* height: auto; */
-            border-radius: 8px;
-            margin: 0;
+            background-color: #ffffff;
         }
 
         /* Additional spacing for right sidebar */
@@ -70,7 +70,6 @@
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         }
         
-
         .suggestion-item {
             margin-bottom: 12px;
             display: flex;
@@ -88,46 +87,10 @@
             background-color: #f6f4ebff; /* Set background color to the desired shade */
         }
 
-        .topbar {
-            background-color: #3eac8bff; /* Light color to match the sidebar */
-            border-radius: 12px; /* Rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a sleek effect */
-            padding: 10px 20px; /* Adjust padding for spacing */
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Adjusts layout of elements */
+        .search-button{
+            color: white;
+            font: Rozha One, serif;
         }
-
-        .logo a {
-            font-size: 60px; /* Larger, bolder logo */
-            font-family: 'Rozha One', serif; /* Custom font */
-            font-weight: 500;
-            color: #f6f4ebff; /* Dark color for contrast */
-            text-decoration: none;
-        }
-
-        .topbar-contents {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* Adds space between items */
-        }
-
-        .header-avatar {
-            border-radius: 50%; /* Makes the profile image circular */
-            border: 2px solid #ddd; /* Optional: Adds a subtle border */
-            width: 40px;
-            height: 40px;
-        }
-
-        .search-button {
-            color: #ffffff;
-        }
-
-        .view-user-btn {
-            color: #ffffff;
-        }
-
-
     </style>
 </head>
 
@@ -142,17 +105,18 @@
             <div class="topbar-contents">
                 <form action="/search" method="POST" class="search-form">
                     {% csrf_token %}
-                    <input 
-                        type="text" 
-                        name="username" 
-                        placeholder="Search for username..." 
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Search for username..."
                         class="search-input"
                     >
                     <button type="submit" class="search-button">
                         <i class="search-icon"></i> Search
                     </button>
                 </form>
-
+ 
+ 
                 <!-- Profile Avatar with Dropdown -->
                 <div class="profile-container">
                     <!-- Profile Image (clickable) -->
@@ -161,24 +125,23 @@
                         padding-left: 15px">
                         <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="Profile Image">
                     </a>
-
+ 
+ 
                     <!-- Dropdown Menu for Profile -->
-                    <div uk-drop="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
+                    <div uk-dropdown="mode: click; offset: 9" class="header-dropdown profile-dropdown border-t hidden">
                         <ul>
                             <li><a href="profile/{{user_profile.user.username}}">Profile</a></li>
-                            <li><a href="profile/{{user_profile.user.username}}">Closet</a></li>
+                            <li><a href="closet/{{user_profile.user.username}}">Closet</a></li>
                             <li><a href="settings">Settings</a></li>
                             <li><a href="logout">Log Out</a></li>
                         </ul>
                     </div>
                 </div>
-
             </div>
         </header>
 
 
         <div class="row">
-
             <div class="col sidebar" background=#f6f4ebff>
                 <ul>
                     <!-- Create Outfit Button -->

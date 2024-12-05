@@ -80,24 +80,6 @@
 
 		<div class="row content-section">
             <div class="timeline">
-				{% if is_own_profile %}
-					<div class="items">
-						Clothes
-					</div>
-					<ul class="row photos">
-						{% for clothing in user_clothing %}
-						<li>
-							<a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-								<img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
-								<!-- <div uk-lightbox>
-									<a href="{{post.image.url}}">  
-										<img src="{{post.image.url}}" alt="">
-									</a>
-								</div> -->
-						</li>
-						{% endfor %}
-					</ul>
-				{% endif %}
 				<div class="items">
 					Outfits
 				</div>

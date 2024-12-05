@@ -18,11 +18,13 @@
  .container {
     width: 100%;
     margin: 0 auto;
+    background-color: #f6f4ebff
  }
  
  
  .col-md-6{
     padding-left: 20px;
+    background-color: #f6f4ebff
  }
  
  
@@ -890,14 +892,14 @@
  html, body{
     margin: 0;
     padding: 0;
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
  }
  
  
  .main{
     padding: none;
     font-family: Arial;
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
  }
  
  
@@ -928,14 +930,14 @@
  
  
  .profile-section{
-    background-color: rgb(35, 35, 35);
+   background-color: #f6f4ebff;
     float: left;
     width: 100%;
  }
  
  
  .content-section{
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
     float: left;
     width: 100%;
  }
@@ -1034,5 +1036,15 @@
  }
   .photos::-webkit-scrollbar-track {
     background: #f9f9f9; /* Customize scrollbar track color */
+ }
+
+ .categories {
+    /* font-size: 30px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-top: 20px; */
+    color: rgb(219, 217, 209);
+    /* font-family: Rozha One, serif;
+    font-weight: normal; */
  }
  

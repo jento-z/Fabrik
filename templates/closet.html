@@ -175,25 +175,7 @@
                                            </div>
                                            </form>
                                        </div>
-          
-                                       <div class="uk-flex uk-flex-column choose-upload" hidden>
-                                           <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
-                                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
-                                                   <path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd" />
-                                               </svg>
-                                           </div>
-                                           <p class="my-3 leading-6"> Import videos from YouTube <br> Copy / Paste your video link here </p>
-                                           <form class="uk-grid-small" uk-grid>
-                                               <div class="uk-width-expand">
-                                                   <input type="text" class="uk-input uk-form-small  bg-gray-200 " style="box-shadow:none" placeholder="Paste link">
-                                               </div>
-                                               <div class="uk-width-auto"> <button type="submit" class="button soft-warning -ml-2">
-                                                       Import </button> </div>
-                                           </form>
-                                           <a href="#" class="uk-text-muted mt-3 uk-link"
-                                               uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
-                                               Or Upload Video </a>
-                                       </div>
+        
           
                                    </div>
                                    <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
@@ -214,10 +196,12 @@
                <div class="timeline">
                    {% if is_own_profile %}
                        <div class="items">
-                           Clothes
+                           Clothes  ({{user_clothing_length}})
                        </div>
+                       <div>
+                    <div class="categories">  Tops</div>
                        <ul class="row photos">
-                           {% for clothing in user_clothing %}
+                           {% for clothing in tops %}
                            <li>
                                <a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
                                    <img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
@@ -230,6 +214,72 @@
                            </li>
                            {% endfor %}
                        </ul>
+
+                       <div class="categories">  Bottoms</div>
+                       <ul class="row photos">
+                           {% for clothing in bottoms %}
+                           <li>
+                               <a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                   <img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
+                                   <div uk-lightbox>
+                                       <a href="{{post.image.url}}"> 
+                                           <img src="{{post.image.url}}" alt="">
+                                       </a>
+                                   </div>
+                               </a>
+                           </li>
+                           {% endfor %}
+                       </ul>
+
+                       <div class="categories">  Hats</div>
+                       <ul class="row photos">
+                           {% for clothing in hats %}
+                           <li>
+                               <a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                   <img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
+                                   <div uk-lightbox>
+                                       <a href="{{post.image.url}}"> 
+                                           <img src="{{post.image.url}}" alt="">
+                                       </a>
+                                   </div>
+                               </a>
+                           </li>
+                           {% endfor %}
+                       </ul>
+
+                       <div class="categories">  Accessories</div>
+                       <ul class="row photos">
+                           {% for clothing in accessories %}
+                           <li>
+                               <a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                   <img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
+                                   <div uk-lightbox>
+                                       <a href="{{post.image.url}}"> 
+                                           <img src="{{post.image.url}}" alt="">
+                                       </a>
+                                   </div>
+                               </a>
+                           </li>
+                           {% endfor %}
+                       </ul>
+
+                       <div class="categories">  Shoes</div>
+                       <ul class="row photos">
+                           {% for clothing in shoes %}
+                           <li>
+                               <a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                   <img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
+                                   <div uk-lightbox>
+                                       <a href="{{post.image.url}}"> 
+                                           <img src="{{post.image.url}}" alt="">
+                                       </a>
+                                   </div>
+                               </a>
+                           </li>
+                           {% endfor %}
+                       </ul>
+                       
+                    </div>
                    {% endif %}
                </div>
            </div>

@@ -65,12 +65,12 @@
 			<form action="/follow" method="POST">
 				{% csrf_token %}
 				<div class="profile-info">
-					{% if user_clothing_length == 0 %}
-					<span class="info-bar-items"><b>0 clothes</b></span>
-					{% elif user_clothing_length == 1 %}
-					<span class="info-bar-items"><b>{{user_clothing_length}} clothing item</b></span>
+					{% if user_post_number == 0 %}
+					<span class="info-bar-items"><b>0 outfits</b></span>
+					{% elif user_post_number == 1 %}
+					<span class="info-bar-items"><b>{{user_post_number}} outfit</b></span>
 					{% else %}
-					<span class="info-bar-items"><b>{{user_clothing_length}} clothes</b></span>
+					<span class="info-bar-items"><b>{{user_post_number}} outfits</b></span>
 					{% endif %}
 
 					{% if user_followers == 1 %}

@@ -2,19 +2,23 @@
 html, body{
     margin: 0;
     padding: 0;
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
 }
 
 .main{
     padding: none;
     font-family: Arial;
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
 }
 
 .row{
     display: flex;
     justify-content: start;
     align-items: center;
+}
+
+.row-profile-section{
+    background-color: #f6f4ebff;
 }
 
 .topbar{
@@ -38,7 +42,7 @@ html, body{
     padding: 20px 26px;
     font-size: 26px;
     text-decoration: none;
-    color:  rgb(37, 37, 37);
+    background-color: #f6f4ebff;
 }
 
 a:hover{
@@ -59,13 +63,13 @@ a:hover{
 }
 
 .profile-section{
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
     float: left;
     width: 100%;
 }
 
 .content-section{
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
     float: left;
     width: 100%;
 }

@@ -289,8 +289,8 @@
  
  /* Style the profile image to be circular */
  .header-avatar {
-    width: 45px; /* Adjust size as needed */
-    height: 45px;
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
     border-radius: 50%;  /* Make the image circular */
     object-fit: cover;  /* Ensure the image fits well within the circle */
     border: none;  /* Optional: adds a white border around the profile image */
@@ -645,14 +645,14 @@
  }
  
  
- /* Profile Image */
+ /* Profile Image
  .right-sidebar .profile-img {
     width: 2.5rem; /* Fixed size */
-    height: 2.5rem;
+    /* height: 2.5rem;
     border-radius: 50%; /* Circular */
-    background-color: #fff; /* Placeholder color */
-    padding: 10px;
- }
+    /* background-color: #fff; /* Placeholder color */
+    /* padding: 10px;
+ } */ 
  
  
  /* View User Button */
@@ -906,6 +906,7 @@
     justify-content: start;
     align-items: center;
     background-color: #f6f4ebff;
+    margin-left: 20px;
  }
  
  
@@ -915,11 +916,12 @@
  
  
  .profile-img{
-    border-radius: 50%;
-    padding-left: 20px;
-    padding-top: 10px;
-    padding-bottom: 5px;
     width: 150px;
+    border-radius: 50%;
+    /* padding-left: 20px;
+    padding-top: 10px; */
+    /* padding-bottom: 5px; */
+
  }
  
  

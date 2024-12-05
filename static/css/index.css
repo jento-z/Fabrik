@@ -552,6 +552,7 @@ body {
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     overflow: hidden;
+    margin-top: 24px;
 }
 
 .sidebar-box {
@@ -564,7 +565,9 @@ body {
 /* Sidebar Header */
 .right-sidebar .sidebar-header {
     font-family: Rozha One, serif; 
-    background-color: rgb(74, 145, 124); /* Light gray */
+    background-color: rgb(74, 145, 124);
+    border-radius: 8px;
+    color: #ffffff;
     border-bottom: 1px solid #f3f4f6; /* Subtle border */
     padding: 1rem 1.5rem; /* Even spacing */
     font-weight: 600; /* Bold font */

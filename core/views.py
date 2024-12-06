@@ -458,6 +458,9 @@ def closet(request, pk):
     shoes = ClosetItem.objects.filter(user=request.user, category='Shoes')
     accessories = ClosetItem.objects.filter(user=request.user, category='Accessories')
 
+    # Fetch outfits for the dropdown
+    outfits = Outfit.objects.filter(user=request.user)
+
     categories = [hats, tops, bottoms, shoes, accessories]
 
     follower = request.user.username
@@ -477,7 +480,7 @@ def closet(request, pk):
         'user_object': user_object,
         'user_profile': user_profile,
         'user_clothing': user_clothing,
-        'user_posts' : user_posts,
+        'user_posts': user_posts,
         'user_clothing_length': user_clothing_length,
         'button_text': button_text,
         'user_followers': user_followers,
@@ -488,7 +491,8 @@ def closet(request, pk):
         'bottoms': bottoms,
         'shoes': shoes,
         'accessories': accessories,
-        'categories': categories
+        'categories': categories,
+        'outfits': outfits,  # Add this to the context
     }
 
     return render(request, 'closet.html', context)

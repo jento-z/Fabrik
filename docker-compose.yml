@@ -1,0 +1,16 @@
+services:
+  django:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+      - static_volume:/code/staticfiles
+      - media:/code/media
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    environment:
+      - DJANGO_SETTINGS_MODULE=fabrik.settings
+
+volumes:
+  static_volume:
+  media:

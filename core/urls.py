@@ -8,6 +8,9 @@ urlpatterns = [
     path('follow', views.follow, name='follow'),
     path('search', views.search, name='search'),
     path('profile/<str:pk>', views.profile, name='profile'),
+
+    path('closet/<str:pk>', views.closet, name='closet'),
+
     path('like-post', views.like_post, name = 'like-post'),
     path('delete-post', views.delete_post, name = 'delete-post'),
     path('signin', views.signin, name='signin'),

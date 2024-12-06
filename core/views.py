@@ -409,6 +409,56 @@ def profile(request, pk):
     user_clothing = ClosetItem.objects.filter(user=user_object).order_by('-date_added')
     user_posts = Post.objects.filter(user=user_object.username).order_by('-created_at')
     user_clothing_length = len(user_clothing)
+    user_post_number = len(user_posts)
+
+    follower = request.user.username
+    user = pk
+
+    if FollowersCount.objects.filter(follower=follower, user=user).first():
+        button_text = 'Unfollow'
+    else:
+        button_text = 'Follow'
+
+    user_followers_list = FollowersCount.objects.filter(user=pk)
+    user_following_list = FollowersCount.objects.filter(follower=pk)
+
+    user_followers = len(FollowersCount.objects.filter(user=pk))
+    user_following = len(FollowersCount.objects.filter(follower=pk))
+
+    is_own_profile = (request.user == user_object)
+
+    context = {
+        'user_object': user_object,
+        'user_profile': user_profile,
+        'user_clothing': user_clothing,
+        'user_posts' : user_posts,
+        'user_clothing_length': user_clothing_length,
+        'user_post_number': user_post_number,
+        'button_text': button_text,
+        'user_followers': user_followers,
+        'user_following': user_following,
+        'is_own_profile': is_own_profile,
+        'user_followers_list': user_followers_list,
+        'user_following_list': user_following_list,
+    }
+
+    return render(request, 'profile.html', context)
+
+@login_required(login_url='signin')
+def closet(request, pk):
+    user_object = User.objects.get(username=pk)
+    user_profile = Profile.objects.get(user=user_object)
+    user_clothing = ClosetItem.objects.filter(user=user_object).order_by('-date_added')
+    user_posts = Post.objects.filter(user=user_object.username).order_by('-created_at')
+    user_clothing_length = len(user_clothing)
+
+    hats = ClosetItem.objects.filter(user=request.user, category='Hats')
+    tops = ClosetItem.objects.filter(user=request.user, category='Tops')
+    bottoms = ClosetItem.objects.filter(user=request.user, category='Bottoms')
+    shoes = ClosetItem.objects.filter(user=request.user, category='Shoes')
+    accessories = ClosetItem.objects.filter(user=request.user, category='Accessories')
+
+    categories = [hats, tops, bottoms, shoes, accessories]
 
     follower = request.user.username
     user = pk
@@ -432,10 +482,16 @@ def profile(request, pk):
         'button_text': button_text,
         'user_followers': user_followers,
         'user_following': user_following,
-        'is_own_profile': is_own_profile
+        'is_own_profile': is_own_profile,
+        'hats': hats,
+        'tops': tops,
+        'bottoms': bottoms,
+        'shoes': shoes,
+        'accessories': accessories,
+        'categories': categories
     }
 
-    return render(request, 'profile.html', context)
+    return render(request, 'closet.html', context)
 
 @login_required(login_url='signin')
 def follow (request):

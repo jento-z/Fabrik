@@ -52,10 +52,28 @@ body {
     margin-top: 60px; /* Matches the height of the topbar */
     margin-left: 320px; /* Matches the width of the sidebar */
     padding: 20px; /* Optional padding for spacing inside the feed */
-    background-color: #f6f4ebff; /* Optional background color */
+    background-color:  #f6f4ebff; /* Optional background color */
     box-sizing: border-box; /* Ensures padding is included in the width */
     font-family: 'Rozha One', serif;
     overflow-y: auto; /* Ensures scrollable content if it exceeds viewport height */
+}
+
+.post-container {
+    background-color: #f6f4ebff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+    padding: 16px;
+    /* margin-right: 24px; */
+    max-width: 700px;
+    overflow: hidden;
+}
+
+.posts-wrapper {
+    margin-top:50px;
+    background-color: #f6f4ebff;
+
+    /* margin-right: 200px; */
 }
 
 .sidebar li a{
@@ -78,7 +96,7 @@ body {
 /* Logo */
 .logo a {
     font-size: 3.5rem;
-    font-weight: bold;
+    font-weight: 500;
     text-decoration: none;
     color: #f6f4ebff;
     padding-left: 20px;
@@ -114,7 +132,7 @@ body {
 
 .search-button {
     background-color: #1e5a48;
-    color: rgb(8, 15, 9);
+    color: rgb(255, 255, 255);
     font-weight: bold;
     border: 1px solid #1e5a48;
     padding: 8px 12px;
@@ -247,8 +265,9 @@ body {
     border-radius: 50%;  /* Make the image circular */
     object-fit: cover;  /* Ensure the image fits well within the circle */
     border: none;  /* Optional: adds a white border around the profile image */
-    
+    margin-right: 0.75rem;
 }
+
 
 /* Styling for the profile dropdown */
 .header-dropdown {
@@ -290,7 +309,7 @@ body {
 }
 
 .bg-white {
-    background-color: #f6f4ebff;
+    background-color: rgb(255, 255, 255);
 }
 
 .shadow {
@@ -334,6 +353,7 @@ body {
 
 .font-bold {
     font-weight: bold;
+    
 }
 
 .text-2xl {
@@ -451,9 +471,31 @@ body {
     font-size: 20;
 }
 
+.post-user {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    padding: 8px 12px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.post-user:hover {
+    background-color: #e0e0e0;
+}
+
 .post-headers{
     padding: 30px;
+    background-color: #ffffff
+}
 
+.post-image img {
+    display: block;
+    width: 100%; 
+    border-radius: 8px;
+    margin: 0;
 }
 
 .post-outfit{
@@ -494,9 +536,9 @@ body {
     font-size: 22px;
     overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
-    color: rgb(22, 22, 22);
-    margin: 20px;
-
+    /* color: rgb(22, 22, 22); */
+    /* margin: 20px; */
+    margin-left: 24px;
 }
 
 @media (max-width: 1000px) {
@@ -511,17 +553,30 @@ body {
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     overflow: hidden;
+    margin-top: 24px;
+}
+
+.sidebar-box {
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Sidebar Header */
 .right-sidebar .sidebar-header {
     font-family: Rozha One, serif; 
-    background-color: #f9fafb; /* Light gray */
+    background-color: rgb(74, 145, 124);
+    border-radius: 8px;
+    color: #ffffff;
     border-bottom: 1px solid #f3f4f6; /* Subtle border */
     padding: 1rem 1.5rem; /* Even spacing */
     font-weight: 600; /* Bold font */
     font-size: 15px; /* Slightly larger text */
     text-align: center;
+    margin-top: 24px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    /* background-color: #1e5a48; */
 }
 
 /* Suggestion Item */
@@ -536,7 +591,7 @@ body {
 
 .right-sidebar .suggestion-item a{
     text-decoration: none;
-    color: rgb(22, 22, 22);
+    /* color: rgb(22, 22, 22); */
 }
 
 .right-sidebar .suggestion-item:last-child {
@@ -572,7 +627,7 @@ body {
 /* General Reset and Styling for Custom Feed */
 .custom-feed {
     font-family: 'Arial', sans-serif;
-    background-color: #f6f4ebff;
+    background-color:#f6f4ebff;
     color: #333;
 }
 
@@ -609,13 +664,14 @@ body {
     align-items: center;
     padding: 5px;
     padding-top: 30px;
-    border-bottom: 1px solid #f6f4ebff;
-    background-color: #f6f4ebff;
+    border-bottom: 1px solid #ffffff;
+    background-color: rgb(255, 255, 255);
 }
 
 .custom-feed .post-user a {
     font-weight: bold;
     color: #3eac8bff;
+    background-color: #ffffff;
     font-size: 17px;
 }
 
@@ -644,7 +700,7 @@ body {
 /* Post Image */
 .custom-feed [post-image] img {
     display: block;
-    width: 100%;
+    width: 50%;
     height: auto;
 }
 
@@ -746,3 +802,4 @@ body {
 .upload-dropdown.show {
     display: block; /* Make visible */
 }
+

@@ -11,6 +11,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <title>Profile - {{user_profile.user.username}}</title>
+
+	<style>
+		.logo a{
+			font-weight: 500;
+		}
+	</style>
 </head>
 
 <body>
@@ -33,7 +39,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="closet">
-					<h3>@{{user_profile.user.username}}'s Closet
+					<h3>@{{user_profile.user.username}}'s Profile
 						<form action="/follow" method="POST">
 							{% csrf_token %}
 							<div class="profile-info">
@@ -59,12 +65,12 @@
 			<form action="/follow" method="POST">
 				{% csrf_token %}
 				<div class="profile-info">
-					{% if user_clothing_length == 0 %}
-					<span class="info-bar-items"><b>0 clothes</b></span>
-					{% elif user_clothing_length == 1 %}
-					<span class="info-bar-items"><b>{{user_clothing_length}} clothing item</b></span>
+					{% if user_post_number == 0 %}
+					<span class="info-bar-items"><b>0 outfits</b></span>
+					{% elif user_post_number == 1 %}
+					<span class="info-bar-items"><b>{{user_post_number}} outfit</b></span>
 					{% else %}
-					<span class="info-bar-items"><b>{{user_clothing_length}} clothes</b></span>
+					<span class="info-bar-items"><b>{{user_post_number}} outfits</b></span>
 					{% endif %}
 
 					{% if user_followers == 1 %}
@@ -80,24 +86,6 @@
 
 		<div class="row content-section">
             <div class="timeline">
-				{% if is_own_profile %}
-					<div class="items">
-						Clothes
-					</div>
-					<ul class="row photos">
-						{% for clothing in user_clothing %}
-						<li>
-							<a class="strip" href="{{clothing.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-								<img src="{{clothing.image.url}}" style="height: 150px; width: 150px;" class="clothing" alt=""></a>
-								<!-- <div uk-lightbox>
-									<a href="{{post.image.url}}">  
-										<img src="{{post.image.url}}" alt="">
-									</a>
-								</div> -->
-						</li>
-						{% endfor %}
-					</ul>
-				{% endif %}
 				<div class="items">
 					Outfits
 				</div>

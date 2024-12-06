@@ -2,19 +2,23 @@
 html, body{
     margin: 0;
     padding: 0;
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
 }
 
 .main{
     padding: none;
     font-family: Arial;
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
 }
 
 .row{
     display: flex;
     justify-content: start;
     align-items: center;
+}
+
+.row-profile-section{
+    background-color: #f6f4ebff;
 }
 
 .topbar{
@@ -24,6 +28,12 @@ html, body{
     font-family: Rozha One, serif;
     font-size: 3.5rem; 
 }
+
+.header-dropdown {
+    position: relative;
+}
+
+
 
 .logo a{
     float: left;
@@ -38,7 +48,7 @@ html, body{
     padding: 20px 26px;
     font-size: 26px;
     text-decoration: none;
-    color:  rgb(37, 37, 37);
+    background-color: #f6f4ebff;
 }
 
 a:hover{
@@ -59,19 +69,20 @@ a:hover{
 }
 
 .profile-section{
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
     float: left;
     width: 100%;
 }
 
 .content-section{
-    background-color: rgb(35, 35, 35);
+    background-color: #f6f4ebff;
     float: left;
     width: 100%;
+    height: 100%;
 }
 
 .following-info{
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(2, 88, 58);
     color: rgb(219, 217, 209);
     padding: 7px;
     padding-left: 15px;
@@ -88,7 +99,7 @@ a:hover{
     font-size: 15px;
     padding: 6px;
     font-weight: bold;
-    background-color: rgb(219, 217, 209);
+    background-color: #f6f4ebff;;
     border-radius: 5px;
     border: none;
 }
@@ -110,7 +121,7 @@ h3{
 .bio{
     /* Username's Bio */
     font-size: 18px;;
-    color: #3eac8bff;
+    color: rgb(2, 88, 58);
     font-weight: normal;
     font-family: arial;
     padding-top: 14px;

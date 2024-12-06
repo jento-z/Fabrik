@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/d841a8b1-2f1d-4fb7-9fbb-41c94c4d0221/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/stylefabrik",
+    "appService.deploySubpath": "."
+}

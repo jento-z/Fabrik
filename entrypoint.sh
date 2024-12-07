@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+echo "Running migrate..."
+python manage.py migrate
+
 echo "Running collectstatic..."
 python manage.py collectstatic --noinput
 

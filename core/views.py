@@ -362,6 +362,7 @@ def upload(request):
         if image:
             # Open the uploaded image
             original_image = Image.open(image)
+            original_image.thumbnail((540, 540))  # Resize to a max of 1024x1024
 
             # Convert image to bytes and remove background
             image_bytes = BytesIO()

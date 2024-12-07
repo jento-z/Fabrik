@@ -11,7 +11,7 @@ import random
 
 ### Third party imports
 from rembg import remove
-from PIL import Image
+from PIL import Image, ImageOps
 from io import BytesIO
 from .create_custom_image_grid import create_custom_image_grid
 
@@ -362,28 +362,38 @@ def upload(request):
         if image:
             # Open the uploaded image
             original_image = Image.open(image)
-            original_image.thumbnail((540, 540))  # Resize to a max of 1024x1024
 
-            # Convert image to bytes and remove background
+            # Correct orientation using EXIF data (if available)
+            original_image = ImageOps.exif_transpose(original_image)
+
+            # Resize the original image
+            original_image.thumbnail((540, 540))
+
+            # Convert the image to bytes for rembg
             image_bytes = BytesIO()
             original_image.save(image_bytes, format='PNG')
             image_bytes = image_bytes.getvalue()
 
-            # Process image with rembg
+            # Process the image with rembg
             processed_image_data = remove(image_bytes)
 
-            # Save the processed image as a new file
-            processed_image = ContentFile(processed_image_data, name=f"processed_{image.name}")
+            # Convert the processed binary data back into an Image object
+            processed_image = Image.open(BytesIO(processed_image_data))
 
-            # Rotate 90 degrees clockwise
-            rotated_image = processed_image.rotate(-90, expand=True)
+            # Correct orientation of the processed image to match the original
+            processed_image = ImageOps.exif_transpose(processed_image)
+
+            # Save the processed, corrected image to a ContentFile
+            final_image_bytes = BytesIO()
+            processed_image.save(final_image_bytes, format='PNG')
+            final_image_file = ContentFile(final_image_bytes.getvalue(), name=f"processed_{image.name}")
 
             # Create a new ClosetItem instance
             new_item = ClosetItem.objects.create(
                 user=user,
                 item_name=item_name,
                 category=category,
-                image=rotated_image
+                image=final_image_file
             )
             new_item.save()
             

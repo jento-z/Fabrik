@@ -375,12 +375,15 @@ def upload(request):
             # Save the processed image as a new file
             processed_image = ContentFile(processed_image_data, name=f"processed_{image.name}")
 
+            # Rotate 90 degrees clockwise
+            rotated_image = processed_image.rotate(-90, expand=True)
+
             # Create a new ClosetItem instance
             new_item = ClosetItem.objects.create(
                 user=user,
                 item_name=item_name,
                 category=category,
-                image=processed_image
+                image=rotated_image
             )
             new_item.save()
             

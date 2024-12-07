@@ -29,6 +29,7 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
+CSRF_TRUSTED_ORIGINS = ["https://fabrik.onrender.com"]
 
 # Application definition
 

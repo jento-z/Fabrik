@@ -28,7 +28,7 @@
 				<a href="/">fabrik</a>
 			</div>
 			<div class="col topbar-contents">
-				<a href="logout">Log Out</a>
+				<a href="/logout">Log Out</a>
 				<a href="/">Home</a>
 			</div>
         </div>
@@ -49,8 +49,8 @@
 								{% if user_object.username != user.username %}
 								<a data-ripple=""><button type="submit" class="settings-or-follow">{{button_text}}</button></a>
 								{% else %}
-								<a href="/settings" data-ripple=""><button type="submit" class="settings-or-follow" >Account Settings</button></a>
-								<!-- <a href="/settings" data-ripple="">Account Settings</a> -->
+								<!-- <a href="/settings" data-ripple=""><button type="submit" class="settings-or-follow" >Account Settings</button></a> -->
+								<a href="/settings" data-ripple="" type="submit" class="settings-or-follow" style="color:black; text-decoration:none">Account Settings</a>
 								{% endif %}
 							</div>
 						</form>

@@ -1,24 +1,28 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-echo "Running collectstatic..."
+echo "Running database migrations..."
+python manage.py migrate --noinput
+
+# One-time superuser creation (skips if already exists or vars unset)
+if [[ -n "${DJANGO_SUPERUSER_USERNAME:-}" && -n "${DJANGO_SUPERUSER_PASSWORD:-}" && -n "${DJANGO_SUPERUSER_EMAIL:-}" ]]; then
+  echo "Creating superuser if needed..."
+  python manage.py createsuperuser --noinput || true
+fi
+
+echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
-echo "Testing Django configuration..."
-python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fabrik.settings'); import django; django.setup(); from django.conf import settings; print('Django configured successfully')" || {
-    echo "ERROR: Django configuration failed!"
-    exit 1
-}
-
-echo "Running gunicorn..."
 # Render sets PORT environment variable (defaults to 10000)
-# For local dev, use PORT=8000 in docker-compose.yml
 PORT=${PORT:-10000}
-echo "Binding to port: $PORT"
-echo "Environment check:"
-echo "  PORT=$PORT"
-echo "  SECRET_KEY=${SECRET_KEY:+SET}"
-echo "  DATABASE_URL=${DATABASE_URL:+SET}"
-# Use fewer workers for free tier (1 worker, 4 threads = better for low memory)
-# Add --access-logfile - to see all requests
-exec gunicorn fabrik.wsgi:application --bind 0.0.0.0:${PORT} --workers=1 --threads=4 --timeout=300 --access-logfile - --log-level info
+echo "Starting gunicorn on port ${PORT}..."
+
+# Optimized for free tier: single worker, preload Django for faster startup
+exec gunicorn fabrik.wsgi:application \
+  --bind "0.0.0.0:${PORT}" \
+  --workers 1 \
+  --timeout 300 \
+  --access-logfile - \
+  --error-logfile - \
+  --forwarded-allow-ips="*" \
+  --preload

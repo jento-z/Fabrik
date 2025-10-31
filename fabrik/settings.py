@@ -23,11 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY environment variable must be set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+# Allow environment variable override, default to safe values
+ALLOWED_HOSTS_STR = os.environ.get("ALLOWED_HOSTS", "localhost 127.0.0.1 fabrik.onrender.com")
+ALLOWED_HOSTS = ALLOWED_HOSTS_STR.split(" ") if ALLOWED_HOSTS_STR else ["localhost", "127.0.0.1", "fabrik.onrender.com"]
 
 CSRF_TRUSTED_ORIGINS = ["https://fabrik.onrender.com"]
 
@@ -87,7 +91,9 @@ DATABASES = {
 }
 
 database_url = os.environ.get("DATABASE_URL")
-DATABASES["default"] = dj_database_url.parse(database_url)
+if database_url:
+    DATABASES["default"] = dj_database_url.parse(database_url)
+# If DATABASE_URL is not set, keep the default SQLite database
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

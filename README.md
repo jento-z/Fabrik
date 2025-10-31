@@ -2,7 +2,7 @@
  outfit curator
 
 Fabrik is a social media platform with a fashion-centric focus. We provide a
-platform for usert to:
+platform for users to:
 
 - Upload photos of their clothing and organize them into a digital wardrobe
 - Post outfits for friends to see, react to, and comment on.

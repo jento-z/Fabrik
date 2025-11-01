@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -e
 
 echo "Running database migrations..."
 python manage.py migrate --noinput
@@ -17,12 +17,5 @@ python manage.py collectstatic --noinput
 PORT=${PORT:-10000}
 echo "Starting gunicorn on port ${PORT}..."
 
-# Optimized for free tier: single worker, preload Django for faster startup
-exec gunicorn fabrik.wsgi:application \
-  --bind "0.0.0.0:${PORT}" \
-  --workers 1 \
-  --timeout 300 \
-  --access-logfile - \
-  --error-logfile - \
-  --forwarded-allow-ips="*" \
-  --preload
+# Add --access-logfile - to see all requests
+exec gunicorn fabrik.wsgi:application --bind 0.0.0.0:${PORT} --workers=1 --threads=4 --timeout=300 --access-logfile - --log-level info

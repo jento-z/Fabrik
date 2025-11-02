@@ -10,7 +10,7 @@ from .utils.weather import get_weather
 import random
 
 ### Third party imports
-from rembg import remove
+import requests
 from PIL import Image, ImageOps
 from io import BytesIO
 from .create_custom_image_grid import create_custom_image_grid
@@ -371,29 +371,31 @@ def upload(request):
 
             # Convert the image to bytes for rembg
             image_bytes = BytesIO()
-            original_image.save(image_bytes, format='JPEG', quality=70)
-            image_bytes = image_bytes.getvalue()
+            original_image.save(image_bytes, format='PNG')
+            image_bytes.seek(0)
 
-            # Process the image with rembg
-            processed_image_data = remove(image_bytes)
+            # call rembg api
+            url = "https://api.rembg.com/rmbg"
+            api_key = settings.REMBG_API_KEY
+            files = {'image_file': ('upload.png', image_bytes, 'image/png')}
+            data = {'format': 'png'}
+            headers = {'Authorization': f'Bearer {api_key}'}
+            resp = requests.post(url, files=files, data=data, headers=headers, timeout=30)
 
-            # Convert the processed binary data back into an Image object
-            processed_image = Image.open(BytesIO(processed_image_data))
+            if not resp.ok:
+                # handle error, maybe log and return message to user
+                messages.error(request, "Image processing failed, please try again.")
+                return redirect('/')
 
-            # Correct orientation of the processed image to match the original
-            processed_image = ImageOps.exif_transpose(processed_image)
-
-            # Save the processed, corrected image to a ContentFile
-            final_image_bytes = BytesIO()
-            processed_image.save(final_image_bytes, format='PNG')
-            final_image_file = ContentFile(final_image_bytes.getvalue(), name=f"processed_{image.name}")
+            processed_bytes = resp.content
+            final_file = ContentFile(processed_bytes, name=f"processed_{image.name}")
 
             # Create a new ClosetItem instance
             new_item = ClosetItem.objects.create(
                 user=user,
                 item_name=item_name,
                 category=category,
-                image=final_image_file
+                image=final_file
             )
             new_item.save()
             

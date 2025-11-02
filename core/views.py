@@ -375,37 +375,32 @@ def upload(request):
             original_image.save(image_bytes, format='PNG')
             image_bytes.seek(0)
 
-            # call rembg api
+            # Call rembg API
             url = "https://api.rembg.com/rmbg"
-            api_key = settings.REMBG_API_KEY
-            files = {'image_file': ('upload.png', image_bytes, 'image/png')}
-            data = {
-                "format": "png",         # Output format: "webp" (default) or "png"
-                "w": 300,                 # Target width (maintains aspect ratio unless exact_resize is true)
-                "h": 300,                 # Target height
-                "exact_resize": "false",  # "true" forces exact w×h, may distort
-                "mask": "false",          # "true" returns only the alpha mask
-                "angle": 0,               # Rotation angle in degrees
-                "expand": "true",         # Add padding so rotated images aren’t cropped
-            }
-            headers = {'Authorization': f'Bearer {api_key}'}
-            resp = requests.post(url, files=files, data=data, headers=headers)
+            api_key = getattr(settings, "REMBG_API_KEY", None)
+            if not api_key:
+                raise ValueError("REMBG_API_KEY not found in settings")
 
-            if resp.status_code == 200:
-                processed_bytes = resp.content
-                final_file = ContentFile(processed_bytes, name=f"processed_{image.name}")
-                # Create a new ClosetItem instance
-                new_item = ClosetItem.objects.create(
-                    user=user,
-                    item_name=item_name,
-                    category=category,
-                    image=final_file
-                )
-                new_item.save()
-            else:
-                # handle error, maybe log and return message to user
-                messages.error(request, "Image processing failed, please try again.")
-                return redirect('/')
+            headers = {"Authorization": f"Bearer {api_key}"}
+            files = {"image_file": ("upload.png", image_bytes, "image/png")}
+
+            resp = requests.post(url, files=files, headers=headers, timeout=30)
+            print("Rembg Response:", resp.status_code, resp.text[:200])
+
+            if resp.status_code != 200:
+                raise ValueError(f"Rembg API failed: {resp.status_code} {resp.text[:100]}")
+
+            # Save processed image
+            final_file = ContentFile(resp.content, name=f"processed_{image.name}")
+            ClosetItem.objects.create(
+                user=user,
+                item_name=item_name,
+                category=category,
+                image=final_file
+            )
+
+            messages.success(request, "Upload successful")
+            return redirect('/')
             
         return redirect('/')
     else:

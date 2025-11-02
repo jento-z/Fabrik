@@ -8,6 +8,7 @@ from .models import Profile, Post, LikePost, FollowersCount, ClosetItem, Outfit
 from itertools import chain
 from .utils.weather import get_weather
 import random
+import os
 from django.conf import settings
 
 ### Third party imports
@@ -353,19 +354,38 @@ def search(request):
 
 @login_required(login_url='signin')
 def upload(request):
-
     if request.method == 'POST':
-        user = request.user
-        image= request.FILES.get('image_upload')
-        item_name = request.POST.get('item_name', '')
-        category = request.POST.get('category', '')
+        try:
+            user = request.user
+            image = request.FILES.get('image_upload')
+            item_name = request.POST.get('item_name', '').strip()
+            category = request.POST.get('category', '').strip()
 
-        if image:
-            # Open the uploaded image
-            original_image = Image.open(image)
+            if not image:
+                messages.error(request, "No image file provided")
+                return redirect('/')
+
+            if not item_name:
+                messages.error(request, "Item name is required")
+                return redirect('/')
+
+            if not category:
+                messages.error(request, "Category is required")
+                return redirect('/')
+
+            # Open and process the uploaded image
+            try:
+                original_image = Image.open(image)
+            except Exception as e:
+                messages.error(request, f"Invalid image file: {str(e)}")
+                return redirect('/')
 
             # Correct orientation using EXIF data (if available)
-            original_image = ImageOps.exif_transpose(original_image)
+            try:
+                original_image = ImageOps.exif_transpose(original_image)
+            except Exception as e:
+                print(f"Warning: Could not transpose EXIF data: {e}")
+                # Continue anyway - not critical
 
             # Resize the original image
             original_image.thumbnail((300, 300))
@@ -377,33 +397,61 @@ def upload(request):
 
             # Call remove.bg API
             url = "https://api.remove.bg/v1.0/removebg"
-            api_key = getattr(settings, "REMOVEBG_API_KEY", None)
+            # Read API key directly from environment (works even if set after Django startup)
+            api_key = os.environ.get("REMOVEBG_API_KEY") or getattr(settings, "REMOVEBG_API_KEY", None)
             if not api_key:
-                raise ValueError("REMOVEBG_API_KEY not found in settings")
+                messages.error(request, "REMOVEBG_API_KEY not configured. Please contact administrator.")
+                print(f"ERROR: REMOVEBG_API_KEY not found. Env var set: {os.environ.get('REMOVEBG_API_KEY') is not None}, Settings value: {getattr(settings, 'REMOVEBG_API_KEY', None)}")
+                return redirect('/')
 
             headers = {"X-Api-Key": api_key}
             files = {"image_file": ("upload.png", image_bytes, "image/png")}
             data = {"size": "auto"}
 
-            resp = requests.post(url, files=files, data=data, headers=headers, timeout=30)
+            try:
+                resp = requests.post(url, files=files, data=data, headers=headers, timeout=30)
+                print(f"remove.bg Response: {resp.status_code}")
+                
+                if resp.status_code != 200:
+                    error_msg = f"Background removal API failed: {resp.status_code}"
+                    if resp.text:
+                        error_details = resp.text[:200]
+                        print(f"remove.bg Error details: {error_details}")
+                        error_msg += f" - {error_details}"
+                    messages.error(request, error_msg)
+                    return redirect('/')
 
-            print("remove.bg Response:", resp.status_code)
-            if resp.status_code != 200:
-                raise ValueError(f"remove.bg API failed: {resp.status_code} - {resp.text[:200]}")
+            except requests.exceptions.Timeout:
+                messages.error(request, "Background removal API timed out. Please try again.")
+                return redirect('/')
+            except requests.exceptions.RequestException as e:
+                messages.error(request, f"Error calling background removal API: {str(e)}")
+                print(f"Request error: {e}")
+                return redirect('/')
 
             # Save processed image
-            final_file = ContentFile(resp.content, name=f"processed_{image.name}")
-            ClosetItem.objects.create(
-                user=user,
-                item_name=item_name,
-                category=category,
-                image=final_file
-            )
+            try:
+                final_file = ContentFile(resp.content, name=f"processed_{image.name}")
+                ClosetItem.objects.create(
+                    user=user,
+                    item_name=item_name,
+                    category=category,
+                    image=final_file
+                )
+                messages.success(request, "Upload successful")
+            except Exception as e:
+                messages.error(request, f"Error saving item: {str(e)}")
+                print(f"Database error: {e}")
+                return redirect('/')
 
-            messages.success(request, "Upload successful")
             return redirect('/')
             
-        return redirect('/')
+        except Exception as e:
+            messages.error(request, f"Unexpected error: {str(e)}")
+            print(f"Upload error: {e}")
+            import traceback
+            traceback.print_exc()
+            return redirect('/')
     else:
         return redirect('/')
     

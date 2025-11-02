@@ -8,6 +8,7 @@ from .models import Profile, Post, LikePost, FollowersCount, ClosetItem, Outfit
 from itertools import chain
 from .utils.weather import get_weather
 import random
+from django.conf import settings
 
 ### Third party imports
 import requests

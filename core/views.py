@@ -375,20 +375,21 @@ def upload(request):
             original_image.save(image_bytes, format='PNG')
             image_bytes.seek(0)
 
-            # Call rembg API
-            url = "https://api.rembg.com/rmbg"
-            api_key = getattr(settings, "REMBG_API_KEY", None)
+            # Call remove.bg API
+            url = "https://api.remove.bg/v1.0/removebg"
+            api_key = getattr(settings, "REMOVEBG_API_KEY", None)
             if not api_key:
-                raise ValueError("REMBG_API_KEY not found in settings")
+                raise ValueError("REMOVEBG_API_KEY not found in settings")
 
-            headers = {"Authorization": f"Bearer {api_key}"}
+            headers = {"X-Api-Key": api_key}
             files = {"image_file": ("upload.png", image_bytes, "image/png")}
+            data = {"size": "auto"}
 
-            resp = requests.post(url, files=files, headers=headers, timeout=30)
-            print("Rembg Response:", resp.status_code, resp.text[:200])
+            resp = requests.post(url, files=files, data=data, headers=headers, timeout=30)
 
+            print("remove.bg Response:", resp.status_code)
             if resp.status_code != 200:
-                raise ValueError(f"Rembg API failed: {resp.status_code} {resp.text[:100]}")
+                raise ValueError(f"remove.bg API failed: {resp.status_code} - {resp.text[:200]}")
 
             # Save processed image
             final_file = ContentFile(resp.content, name=f"processed_{image.name}")

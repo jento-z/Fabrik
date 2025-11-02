@@ -29,9 +29,9 @@ if not SECRET_KEY:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-REMBG_API_KEY = os.environ.get("REMBG_API_KEY")
-if not REMBG_API_KEY:
-    raise ValueError("REMBG_API_KEY environment variable must be set")
+REMOVEBG_API_KEY = os.environ.get("REMOVEBG_API_KEY")
+if not REMOVEBG_API_KEY:
+    raise ValueError("REMOVEBG_API_KEY environment variable must be set")
 
 # Allow environment variable override, default to safe values
 ALLOWED_HOSTS_STR = os.environ.get("ALLOWED_HOSTS", "localhost 127.0.0.1 fabrik.onrender.com")

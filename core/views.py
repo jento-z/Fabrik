@@ -367,11 +367,11 @@ def upload(request):
             original_image = ImageOps.exif_transpose(original_image)
 
             # Resize the original image
-            original_image.thumbnail((540, 540))
+            original_image.thumbnail((300, 300))
 
             # Convert the image to bytes for rembg
             image_bytes = BytesIO()
-            original_image.save(image_bytes, format='PNG')
+            original_image.save(image_bytes, format='JPEG', quality=70)
             image_bytes = image_bytes.getvalue()
 
             # Process the image with rembg

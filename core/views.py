@@ -378,26 +378,33 @@ def upload(request):
             url = "https://api.rembg.com/rmbg"
             api_key = settings.REMBG_API_KEY
             files = {'image_file': ('upload.png', image_bytes, 'image/png')}
-            data = {'format': 'png'}
+            data = {
+                "format": "png",         # Output format: "webp" (default) or "png"
+                "w": 300,                 # Target width (maintains aspect ratio unless exact_resize is true)
+                "h": 300,                 # Target height
+                "exact_resize": "false",  # "true" forces exact w×h, may distort
+                "mask": "false",          # "true" returns only the alpha mask
+                "angle": 0,               # Rotation angle in degrees
+                "expand": "true",         # Add padding so rotated images aren’t cropped
+            }
             headers = {'Authorization': f'Bearer {api_key}'}
-            resp = requests.post(url, files=files, data=data, headers=headers, timeout=30)
+            resp = requests.post(url, files=files, data=data, headers=headers)
 
-            if not resp.ok:
+            if resp.status_code == 200:
+                processed_bytes = resp.content
+                final_file = ContentFile(processed_bytes, name=f"processed_{image.name}")
+                # Create a new ClosetItem instance
+                new_item = ClosetItem.objects.create(
+                    user=user,
+                    item_name=item_name,
+                    category=category,
+                    image=final_file
+                )
+                new_item.save()
+            else:
                 # handle error, maybe log and return message to user
                 messages.error(request, "Image processing failed, please try again.")
                 return redirect('/')
-
-            processed_bytes = resp.content
-            final_file = ContentFile(processed_bytes, name=f"processed_{image.name}")
-
-            # Create a new ClosetItem instance
-            new_item = ClosetItem.objects.create(
-                user=user,
-                item_name=item_name,
-                category=category,
-                image=final_file
-            )
-            new_item.save()
             
         return redirect('/')
     else:
